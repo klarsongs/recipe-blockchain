@@ -1,4 +1,4 @@
-from flask import Flask, jsonify, request, make_response, session
+from flask import Flask, jsonify, request, make_response, session, render_template
 from flask_sqlalchemy import SQLAlchemy
 from werkzeug.security import generate_password_hash, check_password_hash
 import requests
@@ -76,6 +76,11 @@ def login():
         return jsonify({'message' : 'login successful'})
     return jsonify({'message' : 'wrong credentials'})
 
+
+
+@app.route('/')
+def index():
+   return render_template('login.html')
 
 
 if __name__ == '__main__':
