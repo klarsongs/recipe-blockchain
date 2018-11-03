@@ -46,7 +46,7 @@ def create_user():
 
     username = User.query.filter_by(username=username).first()
     if username:
-	return jsonify({'message' : 'username already exists'})
+        return jsonify({'message' : 'username already exists'})
 
     hashed_password = generate_password_hash(postedData["password"], method='sha256')
 
