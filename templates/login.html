@@ -9,14 +9,21 @@
   <div class="form">
     <div class="logo">e-recipe</div>
     <form class="register-form" id="register-form">
+      <input list="role" placeholder="role" class="role"/>
+        <datalist id="role">
+        <option value="Patient">
+        <option value="Doctor">
+        <option value="Chemist">
+        </datalist>
       <input type="text" placeholder="name" class="name"/>
+        <input type="text" placeholder="surname" class="surname"/>
       <input type="password" placeholder="password" class="password"/>
       <input type="text" placeholder="email address" class="email"/>
       <button>create</button>
       <p class="message">Already registered? <a href="#">Sign In</a></p>
     </form>
     <form class="login-form" id="login-form">
-      <input type="text" placeholder="username" class="username"/>
+      <input type="text" placeholder="email address" class="email"/>
       <input type="password" placeholder="password" class="password"/>
       <button>login</button>
       <p class="message">Not registered? <a href="#">Create an account</a></p>

@@ -1,3 +1,8 @@
+function validateEmail(email) {
+    var re = /^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
+    return re.test(String(email).toLowerCase());
+}
+
 $(document).ready(function(){
     $('.message a').click(function(){
        $('form').animate({height: "toggle", opacity: "toggle"}, "slow");
@@ -10,6 +15,11 @@ $(document).ready(function(){
         var usernameVal = $('.register-form .name').val();
         var passwordVal = $('.register-form .password').val();
         var emailVal = $('.register-form .email').val();
+
+
+        if(validateEmail(emailVal) == false) {
+            alert("Email address is not valid.");
+        }
 
         // JSONify the data
         const obj = {
