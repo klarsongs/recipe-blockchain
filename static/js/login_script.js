@@ -12,23 +12,24 @@ $(document).ready(function(){
     // Handle register
     $('.register-form button').click(function(){
         // Get data from the form
-        var usernameVal = $('.register-form .name').val();
+        var roleVal = $('.register-form .role').val();
+        var nameVal = $('.register-form .name').val();
+        var surnameVal = $('.register-form .surname').val();
         var passwordVal = $('.register-form .password').val();
         var emailVal = $('.register-form .email').val();
 
-
         if(validateEmail(emailVal) == false) {
             alert("Email address is not valid.");
+            return false;
         }
 
         // JSONify the data
         const obj = {
-            username: usernameVal,
             password: passwordVal,
             email: emailVal,
-            FirstName: 'Unknown',
-            LastName: 'Unknown',
-            Role: 'Unknown',
+            FirstName: nameVal,
+            LastName: surnameVal,
+            Role: roleVal,
             insurance: 'Unknown'
         }
 
@@ -63,12 +64,12 @@ $(document).ready(function(){
 
     // Handle login
     $('.login-form button').click(function(){
-        var usernameVal = $('.login-form .username').val();
+        var emailVal = $('.login-form .email').val();
         var passwordVal = $('.login-form .password').val();
 
         // JSONify the data
         const obj = {
-            username: usernameVal,
+            email: emailVal,
             password: passwordVal
         }
 
