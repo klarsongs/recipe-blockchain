@@ -15,7 +15,11 @@ $(document).ready(function(){
         const obj = {
             username: usernameVal,
             password: passwordVal,
-            email: emailVal
+            email: emailVal,
+            FirstName: 'Unknown',
+            LastName: 'Unknown',
+            Role: 'Unknown',
+            insurance: 'Unknown'
         }
 
         // Disable submit button (to prevent multiplication of requests)
@@ -29,8 +33,11 @@ $(document).ready(function(){
             timeout: 600000,
 
             success: function (data) {
-                $(".register-form").get(0).reset();
                 alert(data.message);
+                if(data.success == true) {
+                    $(".register-form").get(0).reset();
+                    $('form').animate({height: "toggle", opacity: "toggle"}, "slow");
+                }
                 $(".register-form button").prop("disabled", false);
             },
 
@@ -66,9 +73,10 @@ $(document).ready(function(){
             timeout: 600000,
 
             success: function (data) {
-                $(".login-form").get(0).reset();
                 alert(data.message);
                 $(".login-form button").prop("disabled", false);
+                if (data.success)
+                    location.reload();
             },
 
             error: function (e) {

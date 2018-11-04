@@ -1,13 +1,16 @@
-from flask import Flask, jsonify, request, make_response, session, render_template
+from flask import Flask, jsonify, request, make_response, session, render_template, url_for, redirect
 from flask_sqlalchemy import SQLAlchemy
 from werkzeug.security import generate_password_hash, check_password_hash
 import requests
 import json
+import os
 
 app = Flask(__name__)
+basedir = os.path.abspath(os.path.dirname(__file__))
 
 app.config['SECRET_KEY'] = 'thisissecret'
-app.config['SQLALCHEMY_DATABASE_URI'] = 'mysql://root:rootsuper@localhost:3306/e-recepie'
+# app.config['SQLALCHEMY_DATABASE_URI'] = 'mysql://root:rootsuper@localhost:3306/e-recepie' # hosted MySQL
+app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///' + os.path.join(basedir, 'app.db')  # NoSQL - SQLite
 
 db = SQLAlchemy(app)
 
@@ -20,6 +23,11 @@ class User(db.Model):
     Role = db.Column(db.String(45))
     insurance = db.Column(db.Integer)
     password = db.Column(db.String(255))
+    email = db.Column(db.String(255))
+
+
+db.create_all()
+db.session.commit()
 
 
 @app.route('/isloggedin', methods=['GET'])
@@ -41,20 +49,21 @@ def create_user():
     Role = postedData["Role"]
     insurance = postedData["insurance"]
     password = postedData["password"]
+    email = postedData["email"]
 
     # i dont check password and its repeated in here because it can be easily check in frontend without need to send data to backend anymore
 
     username = User.query.filter_by(username=username).first()
     if username:
-        return jsonify({'message' : 'username already exists'})
+        return jsonify({'success': False, 'message' : 'username already exists'})
 
     hashed_password = generate_password_hash(postedData["password"], method='sha256')
 
-    new_user = User(username=postedData['username'],FirstName=postedData["FirstName"],LastName=postedData["LastName"],Role = postedData["Role"],insurance = postedData["insurance"],password=hashed_password)
+    new_user = User(username=postedData['username'],FirstName=postedData["FirstName"],LastName=postedData["LastName"],Role = postedData["Role"],insurance = postedData["insurance"],password=hashed_password, email=postedData["email"])
     db.session.add(new_user)
     db.session.commit()
 
-    return jsonify({'message' : 'New user created!'})
+    return jsonify({'success': True, 'message' : 'New user created!'})
 
 
 @app.route('/login', methods=['POST'])
@@ -64,7 +73,7 @@ def login():
     password = postedData["password"]
 
     if not postedData or not usern or not password:
-        return jsonify({'message' : 'Please enter both username and password'})
+        return jsonify({'success': False, 'message' : 'Please enter both username and password'})
 
     username = User.query.filter_by(username=usern).first()
 
@@ -73,14 +82,25 @@ def login():
 
     if check_password_hash(username.password, password):
         session['logged'] =  True
-        return jsonify({'message' : 'login successful'})
-    return jsonify({'message' : 'wrong credentials'})
+        return jsonify({'success': True, 'message' : 'login successful'})
+    return jsonify({'success': False, 'message' : 'wrong credentials'})
 
+
+
+@app.route('/logout', methods=['GET'])
+def logout():
+    if not 'logged' in session:
+        return jsonify({'success': False, 'message': "User not logged in. Can't logout."})
+    session.pop('logged', None)
+    return jsonify({'success': True, 'message': 'Log out successful'})
 
 
 @app.route('/')
 def index():
-   return render_template('login.html')
+    if not 'logged' in session:
+        return render_template('login.html')
+    else:
+        return render_template('index.html')
 
 
 if __name__ == '__main__':
