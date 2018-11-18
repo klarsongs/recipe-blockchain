@@ -85,9 +85,9 @@ def login():
 
     if check_password_hash(user.password, password):
         session['logged'] =  True
+        session['role'] = user.Role
         return jsonify({'success': True, 'message' : 'login successful'})
     return jsonify({'success': False, 'message' : 'wrong credentials'})
-
 
 
 @app.route('/logout', methods=['GET'])
@@ -97,14 +97,31 @@ def logout():
     session.pop('logged', None)
     return jsonify({'success': True, 'message': 'Log out successful'})
 
-
 @app.route('/')
 def index():
     if not 'logged' in session:
         return render_template('login.html')
     else:
-        return render_template('index.html')
+        if session['role'] == 'Doctor':
+            return render_template('index.html')
+        elif session['role'] == 'Chemist':
+            return render_template('index.html')
+        elif session['role'] == 'Patient':
+            return render_template('index.html')
+        else:
+            session.clear()
 
+@app.route('/chemist/add_transaction', methods=['POST'])
+def add_transaction(data):
+    print(data)
+
+@app.route('/doctor/add_recipe', methods=['POST'])
+def add_recipe(data):
+    print(data)
+
+@app.route('/chemist/get_recipe/<id>', methods=['GET'])
+def get_recipe(id):
+    print(id)
 
 if __name__ == '__main__':
     app.run(debug=True)
