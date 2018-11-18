@@ -86,6 +86,7 @@ def login():
     if check_password_hash(user.password, password):
         session['logged'] = True
         session['role'] = user.Role
+        session['id'] = user.id
         return jsonify({'success': True, 'message' : 'login successful'})
     return jsonify({'success': False, 'message' : 'wrong credentials'})
 
@@ -107,7 +108,7 @@ def index():
         elif session['role'] == 'Chemist':
             return render_template('user_page/chemist.html')
         elif session['role'] == 'Patient':
-            return render_template('user_page/patient.html')
+            return render_template('user_page/patient.html', id=session['id'])
         else:
             session.clear()
 
