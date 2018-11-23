@@ -1,3 +1,6 @@
+# Exit on first error.
+set -e
+
 cd blockchain/recipe-app
 
 echo "======== Starting blockchain ========"
