@@ -19,6 +19,7 @@ type Recipe struct {
 	DoctorID string `json:"DoctorID"`
 	PatientID  string `json:"PatientID"`
 	Limit  string `json:"Limit"`
+	Info string `json:"Info"`
 }
 
 func (s *SmartContract) Init(APIstub shim.ChaincodeStubInterface) sc.Response {
@@ -60,7 +61,7 @@ func (s *SmartContract) queryRecipe(APIstub shim.ChaincodeStubInterface, args []
 }
 
 func (s *SmartContract) initLedger(APIstub shim.ChaincodeStubInterface) sc.Response {
-	recipe := []recipe{
+	recipe := []Recipe{
 		Recipe{idPrescription: "1", DoctorID: "1", PatientID: "1", Limit: "1"},
 		Recipe{idPrescription: "2", DoctorID: "1", PatientID: "3", Limit: "1"},
 		Recipe{idPrescription: "3", DoctorID: "4", PatientID: "14", Limit: "1"},
@@ -70,8 +71,7 @@ func (s *SmartContract) initLedger(APIstub shim.ChaincodeStubInterface) sc.Respo
 		Recipe{idPrescription: "7", DoctorID: "4", PatientID: "1", Limit: "1"},
 		Recipe{idPrescription: "8", DoctorID: "3", PatientID: "5", Limit: "5"},
 		Recipe{idPrescription: "9", DoctorID: "5", PatientID: "0", Limit: "4"},
-		Recipe{idPrescription: "10",DoctorID: "1", PatientID: "7", Limit: "1"}
-	}
+		Recipe{idPrescription: "10",DoctorID: "1", PatientID: "7", Limit: "1"}}
 
 	i := 0
 	for i < len(recipe) {
@@ -161,7 +161,7 @@ func (s *SmartContract) changeRecipeLimit(APIstub shim.ChaincodeStubInterface, a
 	recipe.Info = args[1]
 
 	recipeAsBytes, _ = json.Marshal(recipe)
-	err := APIstub.PutState(args[0], recordRecipe)
+	err := APIstub.PutState(args[0], recipeAsBytes)
 	if err != nil {
 		return shim.Error(fmt.Sprintf("Failed to change prescription information: %s", args[0]))
 	}

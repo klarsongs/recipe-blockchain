@@ -59,7 +59,7 @@ func (s *SmartContract) queryTransaction(APIstub shim.ChaincodeStubInterface, ar
 }
 
 func (s *SmartContract) initLedger(APIstub shim.ChaincodeStubInterface) sc.Response {
-	transaction := []transaction{
+	transaction := []Transaction{
     Transaction{idTransaction: "1", ChemistID: "1", PrescriptionID: "1", Info: "transaction info"},
     Transaction{idTransaction: "2", ChemistID: "1", PrescriptionID: "3", Info: "transaction info"},
     Transaction{idTransaction: "3", ChemistID: "4", PrescriptionID: "14", Info: "transaction info"},
@@ -69,8 +69,7 @@ func (s *SmartContract) initLedger(APIstub shim.ChaincodeStubInterface) sc.Respo
     Transaction{idTransaction: "7", ChemistID: "4", PrescriptionID: "1", Info: "transaction info"},
     Transaction{idTransaction: "8", ChemistID: "3", PrescriptionID: "5", Info: "transaction info"},
     Transaction{idTransaction: "9", ChemistID: "5", PrescriptionID: "0", Info: "transaction info"},
-    Transaction{idTransaction: "10", ChemistID: "1", PrescriptionID: "7", Info: "transaction info"}
-	}
+    Transaction{idTransaction: "10", ChemistID: "1", PrescriptionID: "7", Info: "transaction info"}}
 
 	i := 0
 	for i < len(transaction) {
