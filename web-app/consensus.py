@@ -23,7 +23,7 @@ def testAttemp():
         if solution.startswith('00000'):   # in the case of bitcoin this should be around 40 zeros to begin with
             timeTook = time.time() - start
             #print(solution)
-            print timeTook
+            print(timeTook)
             Found = True
     return attemp
 
