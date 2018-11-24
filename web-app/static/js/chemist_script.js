@@ -26,11 +26,11 @@ $(document).ready(function(){
             success: function (data) {
                 $('#get_recipe_btn').prop("disabled", false);
                 data = JSON.parse(data);  // change JSON string into object
-                var doc_id = data.DoctorID;
-                var patient_id = data.PatientID;
-                var info = data.Info;
+                var doc_id = data.Record.DoctorID;
+                var patient_id = data.Record.PatientID;
+                var info = data.Record.Info;
                 var element = document.getElementById("recipe");
-                element.innerHTML = "Doctor ID: " + doc_id + "<br />";
+                element.innerHTML += "Doctor ID: " + doc_id + "<br />";
                 element.innerHTML += "Patient ID: " + patient_id + "<br />";
                 element.innerHTML += "Description: " + info;
                 document.getElementById("doctor_ID_trans").value = doc_id;
