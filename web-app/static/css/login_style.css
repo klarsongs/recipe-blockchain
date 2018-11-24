@@ -1,6 +1,14 @@
 @import url(https://fonts.googleapis.com/css?family=Roboto:300);
 @import url('https://fonts.googleapis.com/css?family=Lobster');
 
+label, input {
+    display: block;
+}
+
+label {
+    margin-bottom: 20px;
+}
+
 .logo {
     font-family: 'Lobster', cursive;
     font-size: 30px;
