@@ -28,6 +28,7 @@ $(document).ready(function(){
             },
 
             error: function (e) {
+                $('#add_recipe_btn').prop("disabled", false);
                 alert('Error');
             }
         });

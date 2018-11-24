@@ -24,9 +24,10 @@ $(document).ready(function(){
 
             success: function (data) {
                 $('#get_recipe_btn').prop("disabled", false);
-                var doc_id = data.Record.DoctorID;
-                var patient_id = data.Record.PatientID;
-                var info = data.Record.Info;
+                data = JSON.parse(data);  // change JSON string into object
+                var doc_id = data.DoctorID;
+                var patient_id = data.PatientID;
+                var info = data.Info;
                 var element = document.getElementById("recipe");
                 element.innerHTML = "Doctor ID: " + doc_id + "<br />";
                 element.innerHTML += "Patient ID: " + patient_id + "<br />";
@@ -37,6 +38,7 @@ $(document).ready(function(){
             },
 
             error: function (e) {
+                $('#get_recipe_btn').prop("disabled", false);
                 alert('Error');
             }
         });
@@ -79,6 +81,7 @@ $(document).ready(function(){
             },
 
             error: function (e) {
+                $('#add_transaction_btn').prop("disabled", false);
                 alert('Error');
             }
         });
