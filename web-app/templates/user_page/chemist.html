@@ -7,12 +7,49 @@
 </head>
 <body>
 <div class="index-page">
-  <h1>Chemist logged in.</h1> <br/>
+  <h1>Chemist {{id}}</h1>
   <div id="get_recipe" style="display: block; margin-bottom: 20px;">
+      <h2>Get recipe</h2>
         <input type="number" id="patients_id" placeholder="Patient ID">
         <button id="get_recipe_btn">Get recipe</button>
   </div>
-  <div id="recipe"></div>
+  <div id="recipe">
+      <h2>Recipe</h2>
+  </div>
+  <div id="add_transaction">
+      <h2>Add transaction</h2>
+      <form class="add_transaction_form" id="add_transaction_form">
+      <label for="chemist_ID">
+          Chemist ID
+            <input type="number" placeholder="Chemist ID" class="chemist_ID" value={{id}} id="chemist_ID" readonly/>
+      </label>
+      <label for="doctor_ID_trans">
+          Doctor ID
+            <input type="number" placeholder="Doctor ID" class="doctor_ID" id="doctor_ID_trans"/>
+      </label>
+      <label for="patient_ID_trans">
+          Patient ID
+            <input type="number" placeholder="Patient ID" class="patient_ID" id="patient_ID_trans"/>
+      </label>
+      <label for="recipe_description_trans">
+          Recipe description
+            <input type="text" placeholder="Description" class="recipe_description" id="recipe_description_trans"/>
+      </label>
+      <label for="value">
+          Value of the transaction
+            <input type="number" placeholder="Value" class="value" id="value"/>
+      </label>
+      <label for="date">
+          Date of the transaction
+            <input type="datetime-local" placeholder="Date" class="date" id="date"/>
+      </label>
+      <label for="status">
+          Recipe completed
+            <input type="checkbox" value="Completed" class="status" id="status"/>
+      </label>
+      <button id="add_transaction_btn">Add transaction</button>
+    </form>
+  </div>
   <div>
       <button id="logout">Logout</button>
   </div>

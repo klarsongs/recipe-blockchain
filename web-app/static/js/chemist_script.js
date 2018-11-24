@@ -1,15 +1,15 @@
 $(document).ready(function(){
 
     ////////TEST JSON - remove later /////////
-    var data2 = {Key:"1", Record:{DoctorID:"1",Info:"",Limit:"1",PatientID:"1"}};
-
-    var doc_id = data2.Record.DoctorID;
-    var patient_id = data2.Record.PatientID;
-    var info = data2.Record.Info;
-    var element = document.getElementById("recipe");
-    element.innerHTML = "Doctor ID: " + doc_id + "<br />";
-    element.innerHTML += "Patient ID: " + patient_id + "<br />";
-    element.innerHTML += "Description: " + info;
+//    var data2 = {Key:"1", Record:{DoctorID:"1",Info:"",Limit:"1",PatientID:"1"}};
+//
+//    var doc_id = data2.Record.DoctorID;
+//    var patient_id = data2.Record.PatientID;
+//    var info = data2.Record.Info;
+//    var element = document.getElementById("recipe");
+//    element.innerHTML += "Doctor ID: " + doc_id + "<br />";
+//    element.innerHTML += "Patient ID: " + patient_id + "<br />";
+//    element.innerHTML += "Description: " + info;
     //////////////////////////////////////
     // Handle logout
     $('#get_recipe_btn').click(function(){
@@ -31,6 +31,51 @@ $(document).ready(function(){
                 element.innerHTML = "Doctor ID: " + doc_id + "<br />";
                 element.innerHTML += "Patient ID: " + patient_id + "<br />";
                 element.innerHTML += "Description: " + info;
+                document.getElementById("doctor_ID_trans").value = doc_id;
+                document.getElementById("patient_ID_trans").value = patient_id;
+                document.getElementById("recipe_description_trans").value = info;
+            },
+
+            error: function (e) {
+                alert('Error');
+            }
+        });
+
+        return false;
+    });
+
+    $('#add_transaction_btn').click(function(){
+        var chemistID_val = $('.add_transaction .chemist_ID').val();
+        var doctorID_val = $('.add_transaction .doctor_ID').val();
+        var patientID_val = $('.add_transaction .patient_ID').val();
+        var description_val = $('.add_transaction .recipe_description').val();
+        var value_val = $('.add_transaction .value').val();
+        var date_val = $('.add_transaction .date').val();
+        var status_val = $('.add_transaction .status').val();
+
+        const obj = {
+            ChemistID: chemistID_val,
+            DoctorID: doctorID_val,
+            PatientID: patientID_val,
+            Description: description_val,
+            Value: value_val,
+            Date: date_val,
+            Status: status_val
+        }
+
+        // Disable submit button (to prevent multiplication of requests)
+        $('#add_transaction_btn').prop("disabled", true);
+
+        $.ajax({
+            type: "POST",
+            url: "/chemist/add_transaction",
+            timeout: 600000,
+            data: JSON.stringify(obj),
+            contentType: 'application/json',
+
+            success: function (data) {
+                alert('Success');
+                $('#add_transaction_btn').prop("disabled", false);
             },
 
             error: function (e) {
