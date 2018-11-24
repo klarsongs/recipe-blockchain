@@ -18,3 +18,12 @@ def get_recipe(recipe_id):
     
     response = query_chaincode(channel, chaincode, function, parameters)
     return response
+    
+def get_recipe_by_patient(patient_id):
+    channel = 'recipe-channel'
+    chaincode = 'recipe-chaincode'
+    function = 'queryRecipeByPatient'
+    parameters = str(patient_id)
+    
+    response = query_chaincode(channel, chaincode, function, parameters)
+    return response

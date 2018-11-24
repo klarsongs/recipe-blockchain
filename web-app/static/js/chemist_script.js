@@ -26,6 +26,7 @@ $(document).ready(function(){
             success: function (data) {
                 $('#get_recipe_btn').prop("disabled", false);
                 data = JSON.parse(data);  // change JSON string into object
+                data = data[data.length-1]  // get only the newest recipe (last entry) ????
                 var doc_id = data.Record.DoctorID;
                 var patient_id = data.Record.PatientID;
                 var info = data.Record.Info;
