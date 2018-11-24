@@ -104,9 +104,9 @@ def index():
         return render_template('login.html')
     else:
         if session['role'] == 'Doctor':
-            return render_template('user_page/doctor.html')
+            return render_template('user_page/doctor.html', id=session['id'])
         elif session['role'] == 'Chemist':
-            return render_template('user_page/chemist.html')
+            return render_template('user_page/chemist.html', id=session['id'])
         elif session['role'] == 'Patient':
             return render_template('user_page/patient.html', id=session['id'])
         else:
