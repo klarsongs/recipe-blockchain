@@ -116,12 +116,18 @@ def index():
             session.clear()
 
 @app.route('/chemist/add_transaction', methods=['POST'])
-def add_transaction(data):
+def add_transaction():
     print(data)
 
 @app.route('/doctor/add_recipe', methods=['POST'])
-def add_recipe(data):
-    print(data)
+def add_recipe():
+    # TODO: Load data from post vars
+    print(request.get_data())
+    success = chaincodes.add_recipe(idx=666, recipe_id=666, doctor_id=1, patient_id=2, limit=1)
+    if success:
+        return "Success"  # TODO: Should return id of new recipe?
+    else:
+        abort(400)  # Bad request
 
 @app.route('/chemist/get_recipe/<id>', methods=['GET'])
 def get_recipe(id):

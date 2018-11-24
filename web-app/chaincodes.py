@@ -1,7 +1,12 @@
 import os
 from Naked.toolshed.shell import execute_js, muterun_js
     
+def list2str(parameters):
+    return " ".join(str(param) for param in parameters)   
+    
+# "Backend" functions to query and invoke any chaincode (using NodeJS called through Naked)
 def query_chaincode(channel, chaincode, function, parameters):
+    parameters = list2str(parameters)
     args = channel + ' ' + chaincode + ' ' + function + ' ' + parameters
     response = muterun_js('node-connectors/query.js', arguments=args)
     if response.exitcode == 0:
@@ -9,12 +14,24 @@ def query_chaincode(channel, chaincode, function, parameters):
     else:
         sys.stderr.write(response.stderr)
         return None
+        
+def invoke_chaincode(channel, chaincode, function, parameters):
+    parameters = list2str(parameters)
+    args = channel + ' ' + chaincode + ' ' + function + ' ' + parameters
+    response = muterun_js('node-connectors/invoke.js', arguments=args)
+    if response.exitcode == 0:
+        return True
+    else:
+        sys.stderr.write(response.stderr)
+        return False
     
+    
+# Recipe query functions
 def get_recipe(recipe_id):
     channel = 'recipe-channel'
     chaincode = 'recipe-chaincode'
     function = 'queryRecipe'
-    parameters = str(recipe_id)
+    parameters = [recipe_id]
     
     response = query_chaincode(channel, chaincode, function, parameters)
     return response
@@ -23,7 +40,27 @@ def get_recipe_by_patient(patient_id):
     channel = 'recipe-channel'
     chaincode = 'recipe-chaincode'
     function = 'queryRecipeByPatient'
-    parameters = str(patient_id)
+    parameters = [patient_id]
     
     response = query_chaincode(channel, chaincode, function, parameters)
     return response
+    
+# Recipe invoke functions
+def add_recipe(idx, recipe_id, doctor_id, patient_id, limit):
+    channel = 'recipe-channel'
+    chaincode = 'recipe-chaincode'
+    function = 'recordRecipe'
+    parameters = [idx, recipe_id, doctor_id, patient_id, limit]
+    # BTW - Why have recipe_id, when the key is already id of recipe? or there could be many entries forming 1 recipe?
+    
+    success = invoke_chaincode(channel, chaincode, function, parameters)
+    return success
+
+def change_recipe_limit(recipe_id, limit):
+    channel = 'recipe-channel'
+    chaincode = 'recipe-chaincode'
+    function = 'changeRecipeLimit'
+    parameters = [recipe_id, limit]
+    
+    success = invoke_chaincode(channel, chaincode, function, parameters)
+    return success

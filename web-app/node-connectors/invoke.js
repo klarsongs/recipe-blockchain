@@ -8,6 +8,13 @@
  * Chaincode Invoke
  */
 
+// Retrieve arguments
+var args = process.argv.slice(2);
+var query_channel = args[0];
+var query_chaincode = args[1];
+var query_fcn = args[2];
+var query_args = args.slice(3);
+
 var Fabric_Client = require('fabric-client');
 var path = require('path');
 var util = require('util');
@@ -17,7 +24,7 @@ var os = require('os');
 var fabric_client = new Fabric_Client();
 
 // setup the fabric network
-var channel = fabric_client.newChannel('mychannel');
+var channel = fabric_client.newChannel(query_channel);
 var peer = fabric_client.newPeer('grpc://localhost:7051');
 channel.addPeer(peer);
 var order = fabric_client.newOrderer('grpc://localhost:7050')
@@ -60,10 +67,10 @@ Fabric_Client.newDefaultKeyValueStore({ path: store_path
 	// must send the proposal to endorsing peers
 	var request = {
 		//targets: let default to the peer assigned to the client
-		chaincodeId: 'fabcar',
-		fcn: '',
-		args: [''],
-		chainId: 'mychannel',
+		chaincodeId: query_chaincode,
+		fcn: query_fcn,
+		args: query_args,
+		chainId: query_channel,
 		txId: tx_id
 	};
 
