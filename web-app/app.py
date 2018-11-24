@@ -1,9 +1,12 @@
 from flask import Flask, jsonify, request, make_response, session, render_template, url_for, redirect
 from flask_sqlalchemy import SQLAlchemy
 from werkzeug.security import generate_password_hash, check_password_hash
+
 import requests
 import json
 import os
+
+import chaincodes
 
 app = Flask(__name__)
 basedir = os.path.abspath(os.path.dirname(__file__))
@@ -122,7 +125,11 @@ def add_recipe(data):
 
 @app.route('/chemist/get_recipe/<id>', methods=['GET'])
 def get_recipe(id):
-    print(id)
+    response = chaincodes.get_recipe(id)
+    if response is not None:
+        return response
+    else:
+        abort(404)  # Not found
 
 if __name__ == '__main__':
     app.run(debug=True)

@@ -12,6 +12,7 @@ $(document).ready(function(){
 //    element.innerHTML += "Description: " + info;
     //////////////////////////////////////
     // Handle logout
+    // Handle query
     $('#get_recipe_btn').click(function(){
         var id = $('#patients_id').val();
         // Disable submit button (to prevent multiplication of requests)
