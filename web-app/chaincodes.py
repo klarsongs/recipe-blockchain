@@ -64,3 +64,20 @@ def change_recipe_limit(recipe_id, limit):
     
     success = invoke_chaincode(channel, chaincode, function, parameters)
     return success
+    
+    
+    
+# Transaction query functions
+
+
+# Transaction invoke functions
+def add_transaction(idx, transaction_id, chemist_id, prescription_id, info):
+    channel = 'transaction-channel'
+    chaincode = 'transaction-chaincode'
+    function = 'recordTransaction'
+    parameters = [idx, transaction_id, chemist_id, prescription_id, info]
+    # BTW - Why have transaction_id, when the key is already id of transaction? or there could be many entries forming 1 transaction?
+    
+    success = invoke_chaincode(channel, chaincode, function, parameters)
+    return success
+    

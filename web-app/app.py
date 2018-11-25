@@ -33,6 +33,11 @@ db.create_all()
 db.session.commit()
 
 
+# For id auto-numbering
+TRANSACTION_ID = 10
+RECIPE_ID = 10
+
+
 @app.route('/isloggedin', methods=['GET'])
 def is_logged_in():
     if 'logged' in session:
@@ -117,14 +122,37 @@ def index():
 
 @app.route('/chemist/add_transaction', methods=['POST'])
 def add_transaction():
-    print(data)
+    data = request.get_json()
+    # TODO: Check if data is valid?
+    
+    global TRANSACTION_ID
+    transaction_id = TRANSACTION_ID
+    chemist_id = int(data['ChemistID'])
+    prescription_id = 1  # TODO: need it being passed from frontend
+    info = str(data['Description'])
+    
+    success = chaincodes.add_transaction(transaction_id, transaction_id, chemist_id, prescription_id, info)
+    if success:
+        TRANSACTION_ID += 1
+        return "Success"  # TODO: Should return id of new recipe?
+    else:
+        abort(400)  # Bad request
 
 @app.route('/doctor/add_recipe', methods=['POST'])
 def add_recipe():
-    # TODO: Load data from post vars
-    print(request.get_data())
-    success = chaincodes.add_recipe(idx=666, recipe_id=666, doctor_id=1, patient_id=2, limit=1)
+    data = request.get_json()
+     # TODO: Check if data is valid?
+    
+    global RECIPE_ID
+    recipe_id = RECIPE_ID
+    doctor_id = int(data['DoctorID'])
+    patient_id = int(data['PatientID'])
+    limit = 1  # TODO: add limit field in frontend?
+    # TODO: Add description in chaincode?
+    
+    success = chaincodes.add_recipe(recipe_id, recipe_id, doctor_id, patient_id, limit)
     if success:
+        RECIPE_ID += 1
         return "Success"  # TODO: Should return id of new recipe?
     else:
         abort(400)  # Bad request

@@ -18,7 +18,7 @@ type Transaction struct {
 	idTransaction string `json:"idTransaction"`
 	ChemistID string `json:"ChemistID"`
 	PrescriptionID  string `json:"PrescriptionID"`
-  Info  string `json:"Info"`
+        Info  string `json:"Info"`
 }
 
 func (s *SmartContract) Init(APIstub shim.ChaincodeStubInterface) sc.Response {

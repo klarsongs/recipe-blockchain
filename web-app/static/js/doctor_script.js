@@ -7,9 +7,9 @@ $(document).ready(function(){
         var description_val = $('.add_recipe .recipe_description').val();
 
         const obj = {
-            DoctorID: doctorID_val,
-            PatientID: patientID_val,
-            Description: description_val
+            "DoctorID": doctorID_val,
+            "PatientID": patientID_val,
+            "Description": description_val
         }
 
         // Disable submit button (to prevent multiplication of requests)

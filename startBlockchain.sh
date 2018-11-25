@@ -1,6 +1,9 @@
 # Exit on first error.
 set -e
 
+echo "======== Stopping blockchain ========"
+./stopBlockchain.sh
+
 cd blockchain/recipe-app
 
 echo "======== Starting blockchain ========"

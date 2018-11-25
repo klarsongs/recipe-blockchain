@@ -49,22 +49,22 @@ $(document).ready(function(){
     });
 
     $('#add_transaction_btn').click(function(){
-        var chemistID_val = $('.add_transaction .chemist_ID').val();
-        var doctorID_val = $('.add_transaction .doctor_ID').val();
-        var patientID_val = $('.add_transaction .patient_ID').val();
-        var description_val = $('.add_transaction .recipe_description').val();
-        var value_val = $('.add_transaction .value').val();
-        var date_val = $('.add_transaction .date').val();
-        var status_val = $('.add_transaction .status').val();
+        var chemistID_val = $('#add_transaction .chemist_ID').val();
+        var doctorID_val = $('#add_transaction .doctor_ID').val();
+        var patientID_val = $('#add_transaction .patient_ID').val();
+        var description_val = $('#add_transaction .recipe_description').val();
+        var value_val = $('#add_transaction .value').val();
+        var date_val = $('#add_transaction .date').val();
+        var status_val = $('#add_transaction .status').is(":checked") ? "Completed" : "Not completed";
 
         const obj = {
-            ChemistID: chemistID_val,
-            DoctorID: doctorID_val,
-            PatientID: patientID_val,
-            Description: description_val,
-            Value: value_val,
-            Date: date_val,
-            Status: status_val
+            "ChemistID": chemistID_val,
+            "DoctorID": doctorID_val,
+            "PatientID": patientID_val,
+            "Description": description_val,
+            "Value": value_val,
+            "Date": date_val,
+            "Status": status_val
         }
 
         // Disable submit button (to prevent multiplication of requests)
