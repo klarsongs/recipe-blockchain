@@ -1,8 +1,8 @@
-# Exit on first error.
-set -e
-
 echo "======== Stopping blockchain ========"
 ./stopBlockchain.sh
+
+# Exit on first error.
+set -e
 
 cd blockchain/recipe-app
 
