@@ -28,7 +28,10 @@ CREATE TABLE `user` (
   `FirstName` varchar(45) DEFAULT NULL,
   `LastName` varchar(45) DEFAULT NULL,
   `Role` int(11) DEFAULT NULL,
-  `insurance` varchar(45) DEFAULT NULL,
+  `insurance_number` varchar(45) DEFAULT NULL,
+  `insurance_starting_date` DATE DEFAULT NULL,
+  `insurance_expired_date` DATE DEFAULT NULL,
+  `insurance_status` int(1) DEFAULT NULL,
   `password` varchar(255) DEFAULT NULL,
   PRIMARY KEY (`idUser`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
