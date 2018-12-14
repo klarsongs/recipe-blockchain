@@ -1,0 +1,227 @@
+input {
+    /*
+    border: solid 2px #74A4BC;
+    padding: 10px;
+    font-size: 13px;
+    */
+    font-family: "Roboto", sans-serif;
+    outline: 0;
+    background: #f2f2f2;
+    width: 100%;
+    border: 0;
+    margin: 0 0 15px;
+    padding: 15px;
+    box-sizing: border-box;
+    font-size: 14px;
+}
+
+button {
+    font-family: "Roboto", sans-serif;
+    text-transform: uppercase;
+    outline: 0;
+    background: #74A4BC;
+    width: 100%;
+    border: 0;
+    padding: 15px;
+    color: #FFFFFF;
+    font-size: 14px;
+    -webkit-transition: all 0.3 ease;
+    transition: all 0.3 ease;
+    cursor: pointer;
+}
+
+#logout {
+    color: white;
+    background: none;
+    font-size: 13px;
+    padding: 10px;
+    border: none;
+    font-weight: bold;
+    width: 100px;
+}
+
+.add {
+    /*    height: 100px;*/
+}
+
+.add_recipe {
+    margin: 0 auto;
+    width: 800px;
+    background: white;
+    padding: 20px;
+    box-shadow: 0 0 20px 0 rgba(0, 0, 0, 0.2), 0 5px 5px 0 rgba(0, 0, 0, 0.24);
+}
+
+.new_visit {
+    margin: 0 auto;
+    width: 800px;
+    background: white;
+    padding: 20px;
+    margin-bottom: 10px;
+    box-shadow: 0 0 20px 0 rgba(0, 0, 0, 0.2), 0 5px 5px 0 rgba(0, 0, 0, 0.24);
+}
+
+ul#medicine-list {
+    width: 100%;
+    padding-left: 0px;
+}
+
+#medicine-list, .add {
+    width: 96%;
+    position: relative;
+}
+#medicine-list li,
+.add li {
+    overflow: auto;
+    background: #FFF;
+    padding: 25px 20px;
+    border-radius: 3px;
+    box-shadow: 0 5px 10px rgba(0, 0, 0, 0.05);
+    color: #6D737C;
+    font-size: 16px;
+    font-weight: 500;
+    margin-top: 15px;
+}
+#medicine-list li .delete,
+.add li .delete {
+    display: inline-block;
+    background: rgba(237, 237, 237, 0.4);
+    width: 50px;
+    height: 50px;
+    float: right;
+    text-align: center;
+    line-height: 50px;
+    margin: -14px 0 0 0;
+    border-radius: 100px;
+    cursor: pointer;
+    transition: all 350ms;
+}
+#medicine-list li .delete:hover,
+.add li .delete:hover {
+    background: rgba(116, 164, 188, 0.4);
+}
+
+#medicine-list li .recipe-elements .recipe-elements-label {
+    font-weight: bold;
+}
+
+#medicine-list li .recipe-elements {
+    float: left;
+/*    width: 25%;*/
+    font-size: 13px;
+    margin-right: 2%;
+    padding-right: 25px;
+}
+
+span#recipe-elements-medicine {
+    width: 30%;
+}
+
+span#recipe-elements-quantity {
+    width: 20%;
+}
+
+span#recipe-elements-notes {
+    width: 30%;
+}
+
+#inputAdd {
+    display: none;
+    width: 100%;
+    padding: 15px 10px 0 10px;
+    margin-top: 15px;
+    position: absolute;
+    /*    border-radius: 3px;*/
+    background: #74A4BC;
+    color: #FFF;
+    font-family: "Open sans";
+    font-size: 18px;
+    box-shadow: 0 7px 30px rgba(116, 164, 188, 0.2);
+    text-indent: 10px;
+    transition: all 350ms;
+}
+
+#inputAdd input {
+    border: solid 1px;
+    background: inherit;
+    color: white;
+    font-size: 13px;
+    display: inline-block;
+    padding: 10px;
+}
+
+#inputAdd input::placeholder {
+    color: white;
+}
+
+#inputAdd input:focus {
+    box-shadow: 0 5px 10px rgba(255, 255, 255, 0.1);
+}
+
+input#inputAdd_text {
+    width: 40%;
+}
+
+input#medicine-quantity {
+    width: 20%;
+}
+
+input#medicine-note {
+    width: 30%;
+}
+
+#add_medicine_btn {
+    display: none;
+    width: 50px;
+    height: 50px;
+    background: #FFF;
+    color: #74A4BC;
+    border-radius: 100px;
+    position: absolute;
+    top: 65px;
+    right: -45px;
+    cursor: pointer;
+    box-shadow: 0 7px 30px rgba(93, 83, 188, 0.2);
+    text-align: center;
+}
+
+#add_medicine_btn:hover {
+    background: rgba(255, 255, 255, 0.8);
+    font-weight: bold;
+}
+
+button#add_recipe_btn {
+    border: none;
+    padding: 10px;
+    font-size: 13px;
+    font-weight: bold;
+    background: #74A4BC;
+    color: white;
+}
+
+.add-icon {
+    background: #74A4BC;
+    color: #FFF;
+    width: 104.2%;
+    padding: 11px 0px;
+    text-align: center;
+    /*  border-radius: 250px;*/
+    position: relative;
+    /*    left: 50%;*/
+    /*    bottom: 50px;*/
+    /*    transform: translateX(-50%);*/
+    /*    bottom: -28px;*/
+    cursor: pointer;
+}
+
+#patient_name_surname {
+    display: none;
+}
+
+#patient_birthday {
+    display: none;
+}
+
+#patient_insurance_status {
+    display: none;
+}

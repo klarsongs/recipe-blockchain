@@ -1,29 +1,66 @@
 <html>
-<head>
-    <script src="https://ajax.aspnetcdn.com/ajax/jQuery/jquery-3.3.1.min.js"></script>
-    <link rel="stylesheet" type="text/css" href="static/css/login_style.css">
-    <script src="static/js/main_script.js"></script>
-    <script src="static/js/doctor_script.js"></script>
-</head>
-<body>
-<div class="index-page">
-  <h1>Doctor {{id}}</h1> <br/>
-    <form class="add_recipe" id="add_recipe">
-      <label for="doctor_ID">
-          Doctor ID
-            <input type="number" value={{id}} class="doctor_ID" id="doctor_ID" readonly>
-      </label>
-      <label for="patient_ID">
-          Patient ID
-            <input type="number" placeholder="Patient ID" class="patient_ID" id="patient_ID"/>
-      </label>
-      <label for="recipe_description">
-          Recipe description
-            <input type="text" placeholder="Description" class="recipe_description" id="recipe_description"/>
-      </label>
-      <button id="add_recipe_btn">Add recipe</button>
-    </form>
-  <button id="logout">Logout</button>
-</div>
-</body>
+    <head>
+        <script src="https://ajax.aspnetcdn.com/ajax/jQuery/jquery-3.3.1.min.js"></script>
+        <link rel="stylesheet" type="text/css" href="static/css/login_style.css">
+        <link rel="stylesheet" type="text/css" href="static/css/doctor_style.css">
+        <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.6.1/css/all.css" integrity="sha384-gfdkjb5BdAXd+lj+gudLWI+BXq4IuLW5IT+brZEZsLFm++aCMlF1V92rMkPaX4PP" crossorigin="anonymous">
+        <script src="static/js/main_script.js"></script>
+        <script src="static/js/doctor_script.js"></script>
+    </head>
+    <body>
+        <div class="index-page">
+            <button id="logout" style="float: right">Logout</button>
+            <h1>Welcome, Doctor {{id}}</h1> 
+            Add name and surname of the doctor.<br/>
+            
+            <form class="new_visit">
+                <h2>Patient information</h2>
+                <label for="patient_ID">
+                    <h3>Enter patient's ID</h3>
+                    <input type="number" placeholder="Patient ID" class="patient_ID">
+                </label>
+                <label for="patients_data">
+                    Here patient's info will be displayed.
+                    Right now every info has property display: none,
+                    change to display: block after the data is obtained
+                    from the database: patient's name, surname, birthday and
+                    insurance status.
+                    <div id="patient_name_surname">Patient's name:</div>
+                    <div id="patient_birthday">Patient's birthday:</div>
+                    <div id="patient_insurance_status">Insurance status:</div>
+                </label>
+            </form>
+            <form class="add_recipe" id="add_recipe">
+                <h2>Add new recipe</h2>
+                <label for="doctor_ID">
+                    <h3>Doctor ID</h3>
+                    <input type="number" value={{id}} class="doctor_ID" id="doctor_ID" readonly>
+                </label>
+                <label for="patient_ID">
+                    <h3>Patient ID</h3>
+                    <input type="number" placeholder="Patient ID" class="patient_ID" id="patient_ID"/>
+                </label>
+                <label for="recipe_description">
+                    <h3>Recipe description</h3>
+                    <p>To start adding medicines, press "+" button.</p>
+                    <ul class="list" id="medicine-list"></ul>
+                    <div class="add">
+                        <span class="add-icon fa fa-plus"></span>
+                        <div id="inputAdd">
+                            <input type="text" id="inputAdd_text" placeholder="Write one medicine...">
+                            <input type="text" id="medicine-quantity" placeholder="Quantity...">
+                            <input type="text" id="medicine-note" placeholder="Notes...">
+                        </div>
+                        <button id="add_medicine_btn">Add</button>
+                    </div>
+                    <!--            <input type="text" placeholder="Description" class="recipe_description" id="recipe_description"/>-->
+                </label>
+                <label for="expiration_date" id="recipe_expiration">
+                    <h3>Expiration date</h3>
+                    <input type="date" class='expiration_date' id="expiration_date">
+                </label>    
+                <button id="add_recipe_btn">Add recipe</button>
+            </form>
+        </div>
+    </body>
 </html>
