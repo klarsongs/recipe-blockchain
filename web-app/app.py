@@ -5,7 +5,7 @@ from werkzeug.security import generate_password_hash, check_password_hash
 import requests
 import json
 import os
-#
+
 import chaincodes
 
 app = Flask(__name__)
@@ -98,6 +98,7 @@ def login():
         session['id'] = user.id
         session['FirstName'] = user.FirstName
         session['LastName'] = user.LastName
+        session['insurance'] = user.insurance
         return jsonify({'success': True, 'message' : 'login successful'})
     return jsonify({'success': False, 'message' : 'wrong credentials'})
 
@@ -119,7 +120,7 @@ def index():
         elif session['role'] == 'Chemist':
             return render_template('user_page/chemist.html', id=session['id'], FirstName = session['FirstName'], LastName = session['LastName'])
         elif session['role'] == 'Patient':
-            return render_template('user_page/patient.html', id=session['id'], FirstName = session['FirstName'], LastName = session['LastName'])
+            return render_template('user_page/patient.html', id=session['id'], FirstName = session['FirstName'], LastName = session['LastName'], insurance = session['insurance'])
         else:
             session.clear()
 
