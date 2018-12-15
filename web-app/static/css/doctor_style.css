@@ -214,14 +214,10 @@ button#add_recipe_btn {
     cursor: pointer;
 }
 
-#patient_name_surname {
+#patients_data {
     display: none;
 }
 
-#patient_birthday {
-    display: none;
-}
-
-#patient_insurance_status {
-    display: none;
+#patients_data .patients_data_label {
+    font-weight: bold;
 }

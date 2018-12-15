@@ -10,24 +10,20 @@
     <body>
         <div class="index-page">
             <button id="logout" style="float: right">Logout</button>
-            <h1>Welcome, Doctor {{id}}</h1> 
-            Add name and surname of the doctor.<br/>
-            
+            <h1>Welcome, dr. {{FirstName}} {{LastName}} {{id}}</h1> <br/>
             <form class="new_visit">
                 <h2>Patient information</h2>
                 <label for="patient_ID">
                     <h3>Enter patient's ID</h3>
                     <input type="number" placeholder="Patient ID" class="patient_ID">
+                    <button type="button" id="patient_search_btn">Search</button>
                 </label>
                 <label for="patients_data">
-                    Here patient's info will be displayed.
-                    Right now every info has property display: none,
-                    change to display: block after the data is obtained
-                    from the database: patient's name, surname, birthday and
-                    insurance status.
-                    <div id="patient_name_surname">Patient's name:</div>
-                    <div id="patient_birthday">Patient's birthday:</div>
-                    <div id="patient_insurance_status">Insurance status:</div>
+                    <div id="patients_data">
+                        <div id="patient_name_surname"><span class='patients_data_label'>Patient's name: </span></div>
+                        <div id="patient_birthday"><span class='patients_data_label'>Patient's birthday: </span></div>
+                        <div id="patient_insurance_status"><span class='patients_data_label'>Insurance status: </span></div>
+                    </div>
                 </label>
             </form>
             <form class="add_recipe" id="add_recipe">

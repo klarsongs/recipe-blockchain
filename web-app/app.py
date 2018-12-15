@@ -5,7 +5,7 @@ from werkzeug.security import generate_password_hash, check_password_hash
 import requests
 import json
 import os
-
+#
 import chaincodes
 
 app = Flask(__name__)
@@ -73,6 +73,7 @@ def create_user():
     new_user = User(FirstName=postedData["FirstName"],LastName=postedData["LastName"],Role = postedData["Role"],insurance = postedData["insurance"],password=hashed_password, email=postedData["email"])
     db.session.add(new_user)
     db.session.commit()
+    db.session.commit()
 
     return jsonify({'success': True, 'message' : 'New user created!'})
 
@@ -95,6 +96,8 @@ def login():
         session['logged'] = True
         session['role'] = user.Role
         session['id'] = user.id
+        session['FirstName'] = user.FirstName
+        session['LastName'] = user.LastName
         return jsonify({'success': True, 'message' : 'login successful'})
     return jsonify({'success': False, 'message' : 'wrong credentials'})
 
@@ -112,11 +115,11 @@ def index():
         return render_template('login.html')
     else:
         if session['role'] == 'Doctor':
-            return render_template('user_page/doctor.html', id=session['id'])
+            return render_template('user_page/doctor.html', id=session['id'], FirstName = session['FirstName'], LastName = session['LastName'])
         elif session['role'] == 'Chemist':
-            return render_template('user_page/chemist.html', id=session['id'])
+            return render_template('user_page/chemist.html', id=session['id'], FirstName = session['FirstName'], LastName = session['LastName'])
         elif session['role'] == 'Patient':
-            return render_template('user_page/patient.html', id=session['id'])
+            return render_template('user_page/patient.html', id=session['id'], FirstName = session['FirstName'], LastName = session['LastName'])
         else:
             session.clear()
 
@@ -124,13 +127,13 @@ def index():
 def add_transaction():
     data = request.get_json()
     # TODO: Check if data is valid?
-    
+
     global TRANSACTION_ID
     transaction_id = TRANSACTION_ID
     chemist_id = int(data['ChemistID'])
     prescription_id = 1  # TODO: need it being passed from frontend
     info = str(data['Description'])
-    
+
     success = chaincodes.add_transaction(transaction_id, transaction_id, chemist_id, prescription_id, info)
     if success:
         TRANSACTION_ID += 1
@@ -142,14 +145,14 @@ def add_transaction():
 def add_recipe():
     data = request.get_json()
      # TODO: Check if data is valid?
-    
+
     global RECIPE_ID
     recipe_id = RECIPE_ID
     doctor_id = int(data['DoctorID'])
     patient_id = int(data['PatientID'])
     limit = 1  # TODO: add limit field in frontend?
     # TODO: Add description in chaincode?
-    
+
     success = chaincodes.add_recipe(recipe_id, recipe_id, doctor_id, patient_id, limit)
     if success:
         RECIPE_ID += 1
@@ -164,6 +167,17 @@ def get_recipe(id):
         return response
     else:
         abort(404)  # Not found
+
+@app.route('/doctor/get_patient/<id>', methods=['GET'])
+def get_patient(id):
+    patient = User.query.filter_by(id=id).first()
+    name = patient.FirstName + " " + patient.LastName
+    birthday = "13.07.1995"
+    insurance = patient.insurance
+    return jsonify({'name': name, 'birthday': birthday, 'insurance': insurance})
+
+
+
 
 if __name__ == '__main__':
     app.run(debug=True)

@@ -8,6 +8,39 @@ function myFunc(elem) {
 
 $(document).ready(function(){
 
+    $('#patient_search_btn').click(function(event) { 
+
+        var id = $('.new_visit .patient_ID').val();
+
+        $.ajax({
+            type: "GET",
+            url: "/doctor/get_patient/" + id,
+            timeout: 600000,
+
+            success: function (data) {
+                alert("success");
+                $('#add_recipe_btn').prop("disabled", true);
+                var div = document.getElementById('patients_data');
+                div.style.display = 'block';
+                var name = data.name;
+                var birthday = data.birthday;
+                var insurance = data.insurance;
+                var name_element = document.getElementById('patient_name_surname');
+                var birthday_element = document.getElementById('patient_birthday');
+                var insurance_element = document.getElementById('patient_insurance');
+                name_element.innerHTML += name;
+                birthday_element.innerHTML += birthday;
+                insurance_element.innerHTML += insurance;
+
+                $('#add_recipe_btn').prop("disabled", false);
+            },
+
+            error: function (e) {
+                alert('Error');
+            }
+        });
+    });
+
     //// FOR THE ADDING MEDICINES LIST ////
     // All Variables
 
@@ -63,13 +96,13 @@ $(document).ready(function(){
             //          elementNew.innerHTML = "Medicine: " + myNewValue + " Quantity: " + myNewQuantity + " Notes: " + myNewNote + "<span onclick='myFunc(this)' class='delete fa fa-trash-alt'></span>";
 
             elementNew.innerHTML = "<span class='recipe-elements' id='recipe-elements-medicine'><span class='recipe-elements-label'> Medicine: </span>" + "<span id='recipe-elements-medicine-val'>" + myNewValue + "</span></span>";
-            
+
             elementNew.innerHTML += "<span class='recipe-elements' id='recipe-elements-quantity'><span class='recipe-elements-label'> Quantity: </span>" + "<span id='recipe-elements-quantity-val'>" + myNewQuantity + "</span></span>";
-            
+
             elementNew.innerHTML += "<span class='recipe-elements' id='recipe-elements-notes'><span class='recipe-elements-label'> Notes: </span> " + "<span id='recipe-elements-note-val'>" + myNewNote + "</span></span>";
-            
+
             elementNew.innerHTML += "<span onclick='myFunc(this)' class='delete fa fa-trash-alt'></span>";
-            
+
             inputValue_text.value = "";
             quantity.value = "";
             note.value = "";
@@ -78,23 +111,23 @@ $(document).ready(function(){
     });
 
     $('#add_recipe_btn').click(function(event){
-        
-        
+
+
         ////// STOPS PAGE FROM RELOADING WHEN BUTTON IS PRESSED, REMOVE IF NOT NECESSARY////
         event.preventDefault();
         /////////////////////
-        
+
         var doctorID_val = $('.add_recipe .doctor_ID').val();
         var patientID_val = $('.add_recipe .patient_ID').val();
         var medicines_vals = document.getElementById("medicine-list").querySelectorAll("#recipe-elements-medicine-val");
         var quantity_vals = document.getElementById("medicine-list").querySelectorAll('#recipe-elements-quantity-val');
         var note_vals = document.getElementById("medicine-list").querySelectorAll('#recipe-elements-notes-val');
         var expiration_val = $('.add_recipe .expiration_date').val()
-        
+
         var i;
         for(i = 0; i < medicines_vals.length; i++ ) {
-            
-            
+
+
             var medicine_val = medicines_vals[i].innerHTML;
             var quantity_val = quantity_vals[i].innerHTML;
             var note_vals = quantity_vals[i].innerHTML;
