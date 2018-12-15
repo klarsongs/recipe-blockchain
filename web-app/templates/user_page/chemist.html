@@ -1,58 +1,72 @@
 <html>
-<head>
-    <script src="https://ajax.aspnetcdn.com/ajax/jQuery/jquery-3.3.1.min.js"></script>
-    <link rel="stylesheet" type="text/css" href="static/css/login_style.css">
-    <script src="static/js/main_script.js"></script>
-    <script src="static/js/chemist_script.js"></script>
-</head>
-<body>
-<div class="index-page">
-  <h1>Chemist {{id}}</h1>
-  <div id="get_recipe" style="display: block; margin-bottom: 20px;">
-      <h2>Get recipe</h2>
-        <input type="number" id="patients_id" placeholder="Patient ID">
-        <button id="get_recipe_btn">Get recipe</button>
-  </div>
-  <div id="recipe">
-      <h2>Recipe</h2>
-  </div>
-  <div id="add_transaction">
-      <h2>Add transaction</h2>
-      <form class="add_transaction_form" id="add_transaction_form">
-      <label for="chemist_ID">
-          Chemist ID
-            <input type="number" placeholder="Chemist ID" class="chemist_ID" value={{id}} id="chemist_ID" readonly/>
-      </label>
-      <label for="doctor_ID_trans">
-          Doctor ID
-            <input type="number" placeholder="Doctor ID" class="doctor_ID" id="doctor_ID_trans"/>
-      </label>
-      <label for="patient_ID_trans">
-          Patient ID
-            <input type="number" placeholder="Patient ID" class="patient_ID" id="patient_ID_trans"/>
-      </label>
-      <label for="recipe_description_trans">
-          Recipe description
-            <input type="text" placeholder="Description" class="recipe_description" id="recipe_description_trans"/>
-      </label>
-      <label for="value">
-          Value of the transaction
-            <input type="number" placeholder="Value" class="value" id="value"/>
-      </label>
-      <label for="date">
-          Date of the transaction
-            <input type="datetime-local" placeholder="Date" class="date" id="date"/>
-      </label>
-      <label for="status">
-          Recipe completed
-            <input type="checkbox" value="Completed" class="status" id="status"/>
-      </label>
-      <button id="add_transaction_btn">Add transaction</button>
-    </form>
-  </div>
-  <div>
-      <button id="logout">Logout</button>
-  </div>
-</div>
-</body>
+    <head>
+        <script src="https://ajax.aspnetcdn.com/ajax/jQuery/jquery-3.3.1.min.js"></script>
+        <link rel="stylesheet" type="text/css" href="static/css/login_style.css">
+        <link rel="stylesheet" type="text/css" href="static/css/doctor_style.css">
+        <link rel="stylesheet" type="text/css" href="static/css/chemist_style.css">
+        <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.6.1/css/all.css" integrity="sha384-gfdkjb5BdAXd+lj+gudLWI+BXq4IuLW5IT+brZEZsLFm++aCMlF1V92rMkPaX4PP" crossorigin="anonymous">
+        <script src="static/js/main_script.js"></script>
+        <script src="static/js/chemist_script.js"></script>
+    </head>
+    <body>
+        <div class="index-page">
+            <button id="logout" style="float: right">Logout</button>
+            <h1>Welcome, {{FirstName}} {{LastName}} {{id}}</h1> <br/>    
+            <div id="get_recipe" class="section" style="display: block; margin-bottom: 20px;">
+                <h2>Get recipe</h2>
+                <input type="number" id="patients_id" placeholder="Patient ID">
+                <button type="button" id="get_recipe_btn">Get recipe</button>
+            </div>
+            <div id="recipe" class="section">
+                <h2>Recipe</h2>
+                <h3>Doctor ID</h3>
+                <input type="number" class="read-recipe-elements" id="read-recipe-elements-doctor" readonly>
+                <h3>Medicines</h3>
+                <ul class="read-recipe-elements" id="read-recipe-elements-medicines"></ul>
+                <h3>Expiration date</h3>
+                <input type="date" class="read-recipe-elements" id="read-recipe-elements-expiration" readonly>
+                <button id="copy_recipe" type="button">Copy to transaction</button>
+            </div>
+            <div id="add_transaction" class="section">
+                <h2>Add transaction</h2>
+                <form class="add_transaction_form" id="add_transaction_form">
+                    <label for="chemist_ID">
+                        Chemist ID
+                        <input type="number" placeholder="Chemist ID" class="chemist_ID" value={{id}} id="chemist_ID" readonly/>
+                    </label>
+                    <label for="doctor_ID_trans">
+                        Doctor ID
+                        <input type="number" placeholder="Doctor ID" class="doctor_ID" id="doctor_ID_trans"/>
+                    </label>
+                    <label for="patient_ID_trans">
+                        Patient ID
+                        <input type="number" placeholder="Patient ID" class="patient_ID" id="patient_ID_trans"/>
+                    </label>
+                    <label for="recipe_description_trans">
+                        Medicines
+                        <ul id="medicine-list"></ul>
+                        <button id="add_medicine_trans_btn" type="button">Add another medicine</button>
+                        <div id="inputAdd">
+                            <input type="text" id="inputAdd_text" placeholder="Write one medicine...">
+                            <input type="text" id="medicine-quantity" placeholder="Quantity...">
+                            <button id="add_medicine_btn" type="button">Add</button>
+                        </div>
+                    </label>
+                    <div id="empty"></div>
+                    <label for="value">
+                        Value of the transaction
+                        <input type="number" placeholder="Value" class="value" id="value"/>
+                    </label>
+                    <label for="status">
+                        Recipe completed
+                        <input type="checkbox" value="Completed" class="status" id="status"/>
+                    </label>
+                    <button id="add_transaction_btn" type="button">Add transaction</button>
+                </form>
+            </div>
+            <div>
+                <button id="logout">Logout</button>
+            </div>
+        </div>
+    </body>
 </html>
