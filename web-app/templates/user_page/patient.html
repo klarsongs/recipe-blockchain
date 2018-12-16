@@ -7,6 +7,51 @@
         <script src="static/js/patient_script.js"></script>
     </head>
     <body>
+		<div id="templates" style="display: none">
+
+			<div id="recipe-template">
+                <li class="recipe">
+                    <div class="recipe-title">
+                        <span class="recipe-id"></span>
+                        <span class="recipe-status"></span>
+                    </div>
+                    <div class="doctor-data">
+                        <span class=label>Doctor:</span>
+                        <span class="doctor-id"></span>
+                    </div>
+                    <div class="medicines">
+                        <span class=label>Medicines:</span>
+                        <ul class="medicine-list">
+                            <!-- MEDICINE-LIST TEMPLATE -->
+                        </ul>
+                    </div>
+                    <div class="transactions">
+                        Transactions
+                        <ol class="transaction-list">
+                            <!-- TRANSACTION LIST TEMPLATE -->
+                        </ol>
+                    </div>
+                </li>
+            </div>
+
+			<div id="medicine-list-template">
+                <li class="medicine">
+                    <span class=label>Name:</span><span class="medicine-name"></span>
+                    <span class=label>Quantity:</span><span class="medicine-quantity"></span>
+                    <span class=label>Notes:</span><span class="medicine-notes"></span>    
+                </li>
+            </div>
+
+			<div id="transaction-list-template">
+                <li class="transaction">
+                    <span class=label>Date:</span><span class="date"></span>
+                    <span class=label>Chemist ID:</span><span class="chemist-id"></span>
+                    <span class=label>Value:</span><span class="value"></span>
+                </li>
+            </div>
+
+		</div>
+
         <div class="index-page">
             <button id="logout" style="float: right">Logout</button>
             <h1>Welcome, {{FirstName}} {{LastName}}</h1> <br/>
@@ -18,42 +63,7 @@
             <div id="patient_recipes" class="section recipe_list">
                 <h2>Your recipes and transactions</h2>
                 <ul id="recipe-list">
-                    <template id="recipe-template">
-                        <li class="recipe">
-                            <div class="recipe-title">
-                                <span class="recipe-id"></span>
-                                <span class="recipe-status"></span>
-                            </div>
-                            <div class="doctor-data">
-                                <span class=label>Doctor:</span>
-                                <span class="doctor-id"></span>
-                            </div>
-                            <div class="medicines">
-                                <span class=label>Medicines:</span>
-                                <ul class="medicine-list">
-                                    <template id="medicine-list-template">
-                                        <li class="medicine">
-                                            <span class=label>Name:</span><span class="medicine-name"></span>
-                                            <span class=label>Quantity:</span><span class="medicine-quantity"></span>
-                                            <span class=label>Notes:</span><span class="medicine-notes"></span>    
-                                        </li>
-                                    </template>
-                                </ul>
-                            </div>
-                            <div class="transactions">
-                                Transactions
-                                <ol id="transaction-list">
-                                    <template id="transaction-list-template">
-                                        <li class="transaction">
-                                            <span class=label>Date:</span><span class="date"></span>
-                                            <span class=label>Chemist ID:</span><span class="chemist-id"></span>
-                                            <span class=label>Value:</span><span class="value"></span>
-                                        </li>
-                                    </template>
-                                </ol>
-                            </div>
-                        </li>
-                    </template>
+                    <!-- RECIPE TEMPLATE -->
                 </ul>
             </div>
         </div>

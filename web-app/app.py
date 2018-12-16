@@ -62,6 +62,7 @@ def create_user():
     email = postedData["email"]
     birthday_datetime = datetime.strptime(postedData["birthday"], '%Y-%m-%d')
     birthday = birthday_datetime.date()
+    print(birthday)
 
     if '' in postedData.values():
         return jsonify({'success': False, 'message': 'All fields must be filled'})
