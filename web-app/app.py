@@ -25,7 +25,9 @@ class User(db.Model):
     FirstName = db.Column(db.String(45))
     LastName = db.Column(db.String(45))
     Role = db.Column(db.String(45))
-    insurance = db.Column(db.Integer)
+    insurance = db.Column(db.String(45))
+    insurance_startdate = db.Column(db.Date)
+    insurance_expireddate = db.Column(db.Date)
     password = db.Column(db.String(255))
     email = db.Column(db.String(255))
     birthday = db.Column(db.Date)
@@ -58,6 +60,10 @@ def create_user():
     LastName = postedData["LastName"]
     Role = postedData["Role"]
     insurance = postedData["insurance"]
+    insurance_start = datetime.strptime(postedData["insurancestart"], '%Y-%m-%d')
+    insurance_startdate = insurance_start.date()
+    insurance_expired = datetime.strptime(postedData["insuranceexpired"], '%Y-%m-%d')
+    insurance_expireddate = insurance_expired.date()
     password = postedData["password"]
     email = postedData["email"]
     birthday_datetime = datetime.strptime(postedData["birthday"], '%Y-%m-%d')
@@ -75,7 +81,7 @@ def create_user():
 
     hashed_password = generate_password_hash(password, method='sha256')
 
-    new_user = User(FirstName=FirstName, LastName=LastName, Role = Role,insurance = insurance, password=hashed_password, email=email, birthday=birthday)
+    new_user = User(FirstName=FirstName, LastName=LastName, Role = Role,insurance = insurance, insurance_startdate = insurance_startdate,insurance_expireddate = insurance_expireddate, password=hashed_password, email=email, birthday=birthday)
     db.session.add(new_user)
     db.session.commit()
     db.session.commit()
