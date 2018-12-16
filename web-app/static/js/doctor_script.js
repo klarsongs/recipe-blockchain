@@ -6,7 +6,7 @@ function myFunc(elem) {
 }
 
 $(document).ready(function(){
-    
+
     //recipes
 
     var recipes = [];
@@ -15,7 +15,12 @@ $(document).ready(function(){
         {'PrescriptionID': 1, 'RecipeID': 1, 'DoctorID': 1, 'PatientID': 1, 'Medicine': 'Rutinoscorbin', 'MedicineQuantity': '2 tabs', 'ExpirationDate': '2020-12-30', 'Note': ''},
         {'PrescriptionID': 2, 'RecipeID': 1, 'DoctorID': 1, 'PatientID': 1, 'Medicine': 'Gripex', 'MedicineQuantity': '1 tab', 'ExpirationDate': '2020-12-30', 'Note': ''}
     ];
+    var test_recipe2 = [
+        {'PrescriptionID': 3, 'RecipeID': 2, 'DoctorID': 1, 'PatientID': 1, 'Medicine': 'Nothing', 'MedicineQuantity': '4 kg', 'ExpirationDate': '2020-12-30', 'Note': "Test"}
+    ];
+
     recipes.push(test_recipe);
+    recipes.push(test_recipe2);
 
     var historyList = document.getElementById('patients_history_list');
     for (var i = 0; i < recipes.length; i++) {
@@ -40,10 +45,18 @@ $(document).ready(function(){
             tmpl_medicine_list.querySelector('.medicine-quantity').innerText = prescription.MedicineQuantity;
             tmpl_medicine_list.querySelector('.medicine-note').innerText = prescription.Note;
 
+            tmpl_medicine_list.querySelector('.medicine-name').innerHTML += ',';
+            if(prescription.Note !== ''){
+                console.log("something");
+                tmpl_medicine_list.querySelector('.medicine-quantity').innerHTML += ',';
+            }
+
             medicineList.appendChild(tmpl_medicine_list);
         }
+
+        historyList.appendChild(tmpl);
     }
-    historyList.appendChild(tmpl);
+
 
     $('#patient_search_btn').click(function(event) { 
 

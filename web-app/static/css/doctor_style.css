@@ -236,3 +236,35 @@ button#add_recipe_btn {
 #patients_data .patients_data_label {
     font-weight: bold;
 }
+
+/* PATIENT'S HISTORY */
+
+.list_placeholder {
+    max-height: 600px;
+    overflow: auto;
+}
+
+.recipe {
+    background: #f2f2f2;
+    padding: 10px;
+}
+
+.recipe_info {
+    margin-bottom: 10px;
+    background: #f3f3f3;
+    padding: 10px;
+    background: white;
+}
+
+.label {
+    font-weight: bold;
+}
+
+.wrapper {
+    width: 32%;
+    display: inline-block;
+}
+
+.medicine-list {
+
+}
