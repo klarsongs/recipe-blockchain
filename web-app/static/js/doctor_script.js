@@ -6,6 +6,44 @@ function myFunc(elem) {
 }
 
 $(document).ready(function(){
+    
+    //recipes
+
+    var recipes = [];
+
+    var test_recipe = [
+        {'PrescriptionID': 1, 'RecipeID': 1, 'DoctorID': 1, 'PatientID': 1, 'Medicine': 'Rutinoscorbin', 'MedicineQuantity': '2 tabs', 'ExpirationDate': '2020-12-30', 'Note': ''},
+        {'PrescriptionID': 2, 'RecipeID': 1, 'DoctorID': 1, 'PatientID': 1, 'Medicine': 'Gripex', 'MedicineQuantity': '1 tab', 'ExpirationDate': '2020-12-30', 'Note': ''}
+    ];
+    recipes.push(test_recipe);
+
+    var historyList = document.getElementById('patients_history_list');
+    for (var i = 0; i < recipes.length; i++) {
+        var recipe = recipes[i];
+
+        // using the template from html, clone it
+        var tmpl = document.getElementById('patients_history_li_tmpl').cloneNode(true);
+
+        tmpl.querySelector('.recipe_info').querySelector('.recipe_id').innerText = recipe[0].RecipeID;
+        tmpl.querySelector('.recipe_info').querySelector('.doctor_id').innerText = recipe[0].DoctorID;
+        tmpl.querySelector('.recipe_info').querySelector('.recipe_date').innerText = recipe[0].ExpirationDate;
+
+        var medicineList = tmpl.querySelector('.medicine-list');
+
+        for(var j = 0; j < recipe.length; j++) {
+            var prescription = recipe[j];
+
+            // use template for medicine-list
+            var tmpl_medicine_list = document.getElementById('medicine-list-tmpl').cloneNode(true);
+
+            tmpl_medicine_list.querySelector('.medicine-name').innerText = prescription.Medicine;
+            tmpl_medicine_list.querySelector('.medicine-quantity').innerText = prescription.MedicineQuantity;
+            tmpl_medicine_list.querySelector('.medicine-note').innerText = prescription.Note;
+
+            medicineList.appendChild(tmpl_medicine_list);
+        }
+    }
+    historyList.appendChild(tmpl);
 
     $('#patient_search_btn').click(function(event) { 
 
@@ -37,6 +75,7 @@ $(document).ready(function(){
                 alert('Error');
             }
         });
+
     });
 
     $('#patients_history_btn').click(function(event) {
@@ -49,97 +88,6 @@ $(document).ready(function(){
         }else {
             div.style.display= 'block'
         }
-        
-        
-        // EXAMPLE VALUES FOR STYLING
-        
-        
-//        var recipes = [{'recipeId': '213', 'doctorId': '3243', 'recipeDate': '13-04-2018', 'medicinesList': [{'name': 'Rutinoscrobin', 'quantity': '20 packs', 'note': '10 tablets a day'}, {'name': 'Food', 'quantity': '30 kg', 'note': 'The best would be pizza'}]}];
-////        var recipeId = 213;
-////        var doctorId = 3243;
-////        var recipeDate = 13-04-2018;
-////        var medicinesList = [["Rutinoscorbin", "Food"],["20 packs", "30 mg"],["10 tablets a day"],["The best would be pizza"]];
-//        
-////        var historyList = document.getElementById('patients_history_list');
-//        
-//        for (var i = 0; i < recipes.length; i++) {
-//            var recipe = recipes[i];
-//            var tmpl = $('#patients_history_li_tmpl').clone();
-////            var tmpl = document.getElementById('patients_history_li_tmpl'), clone = tmpl.cloneNode(true);
-////            var tmpl = document.getElementById('patients_history_li_tmpl').content.cloneNode(true);
-//            tmpl.find('.recipe_info .recipe_id').text = recipe.recipeId;
-//            tmpl.find('.recipe_info .doctor_id').text = recipe.doctorId;
-//            tmpl.find('.recipe_info .recipe_date').text = 
-//            tmpl.recipeDate;
-//            
-////            var medicineList = document.getElementById('medicine-list');
-//            
-//            for (var j = 0; j < recipe.medicinesList.length; j++) {
-//                var medicine = recipe.medicinesList[j];
-//                var tmpl_medicine = $('#medicine-list-tmpl').clone();
-////                var tmpl_medicine = document.getElementById('medicine-list-tmpl'), clone = tmpl.cloneNode(true);
-////                var tmpl_medicine = document.getElementById('medicine-list-tmpl').content.cloneNode(true);
-//                tmpl_medicine.find('.medicine .medicine-name').text = medicine.name;
-//                tmpl_medicine.find('.medicine .medicine-quantity').text = medicine.quantity;
-//                tmpl_medicine.find('.medicine .medicine-note').text = medicine.note;
-////                medicineList.appendChild(tmpl_medicine);
-//                $('.medicine-list').append(tmpl_medicine)
-//            }
-//            
-//            $('#patients_history_list').append(tmpl);
-//        }
-
-		var recipes = [];
-
-		var test_recipe = [
-			{'PrescriptionID': 1, 'RecipeID': 1, 'DoctorID': 1, 'PatientID': 1, 'Medicine': 'Rutinoscorbin', 'MedicineQuantity': '2 tabs', 'ExpirationDate': '2020-12-30', 'Note': ''},
-			{'PrescriptionID': 2, 'RecipeID': 1, 'DoctorID': 1, 'PatientID': 1, 'Medicine': 'Gripex', 'MedicineQuantity': '1 tab', 'ExpirationDate': '2020-12-30', 'Note': ''}
-		];
-		recipes.push(test_recipe);
-
-        var historyList = document.getElementById('patients_history_list');
-        for (var i = 0; i < recipes.length; i++) {
-            var recipe = recipes[i];
-            
-            // using the template from html, clone it
-        	var tmpl = document.getElementById('patients_history_li_tmpl').cloneNode(true);
-			
-			tmpl.querySelector('.recipe_info').querySelector('.recipe_id').innerText = recipe[0].RecipeID;
-			tmpl.querySelector('.recipe_info').querySelector('.doctor_id').innerText = recipe[0].DoctorID;
-			tmpl.querySelector('.recipe_info').querySelector('.recipe_date').innerText = recipe[0].ExpirationDate;
-			
-			var medicineList = tmpl.querySelector('.medicine-list');
-			
-			for(var j = 0; j < recipe.length; j++) {
-		        var prescription = recipe[j];
-
-		        // use template for medicine-list
-		        var tmpl_medicine_list = document.getElementById('medicine-list-tmpl').cloneNode(true);
-
-		        tmpl_medicine_list.querySelector('.medicine-name').innerText = prescription.Medicine;
-		        tmpl_medicine_list.querySelector('.medicine-quantity').innerText = prescription.MedicineQuantity;
-		        tmpl_medicine_list.querySelector('.medicine-note').innerText = prescription.Note;
-		        
-		        medicineList.appendChild(tmpl_medicine_list);
-			}
-        }
-        historyList.appendChild(tmpl);
-        
-//        var id = $('.new_visit .patient_ID').val();
-//
-//        $.ajax({
-//            type: "GET",
-//            url: "/doctor/get_patient_history/" + id,
-//            timeout: 600000,
-//
-//            success: function (data) {
-//                //success
-//            },
-//
-//            error: function (e) {
-//                alert('Error');
-//            }
-//        });
 
     });
 
