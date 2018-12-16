@@ -2,17 +2,58 @@
     <head>
         <script src="https://ajax.aspnetcdn.com/ajax/jQuery/jquery-3.3.1.min.js"></script>
         <link rel="stylesheet" type="text/css" href="static/css/login_style.css">
+        <link rel="stylesheet" type="text/css" href="static/css/doctor_style.css">
         <script src="static/js/main_script.js"></script>
+        <script src="static/js/patient_script.js"></script>
     </head>
     <body>
         <div class="index-page">
-            <h1>Patient {{id}}</h1> <br/>
-            <div id="personal_info" style="margin-bottom: 30px">
-                Welcome, {{FirstName}} {{LastName}}!
-                Your ID number is: {{id}}
+            <button id="logout" style="float: right">Logout</button>
+            <h1>Welcome, {{FirstName}} {{LastName}}</h1> <br/>
+            <div id="personal_info" class="section">
+                <h2>Your personal information:</h2>
+                Your ID number is: {{id}} <br>
                 Your insurance status is: {{insurance}}
             </div>
-            <button id="logout">Logout</button>
+            <div id="patient_recipes" class="section recipe_list">
+                <h2>Your recipes and transactions</h2>
+                <ul id="recipe-list">
+                    <template id="recipe-template">
+                        <li class="recipe">
+                            <div class="recipe-title">
+                                <span class="recipe-id"></span>
+                                <span class="recipe-status"></span>
+                            </div>
+                            <div class="doctor-data">
+                                <span class=label>Doctor:</span>
+                                <span class="doctor-id"></span>
+                            </div>
+                            <div class="medicines">
+                                <span class=label>Medicines:</span>
+                                <ul class="medicine-list"></ul>
+                                    <template id="medicine-list-template">
+                                        <li class="medicine">
+                                            <span class=label>Name:</span><span class="medicine-name"></span>
+                                            <span class=label>Quantity:</span><span class="medicine-quantity"></span>
+                                            <span class=label>Notes:</span><span class="medicine-notes"></span>    
+                                        </li>
+                                    </template>
+                            </div>
+                            <div class="transactions">
+                                Transactions
+                                <ol id="transaction-list"></ol>
+                                <template id="transaction-list-template">
+                                    <li class="transaction">
+                                        <span class=label>Date:</span><span class="date"></span>
+                                        <span class=label>Chemist ID:</span><span class="chemist-id"></span>
+                                        <span class=label>Value:</span><span class="value"></span>
+                                    </li>
+                                </template>
+                            </div>
+                        </li>
+                    </template>
+                </ul>
+            </div>
         </div>
     </body>
 </html>
