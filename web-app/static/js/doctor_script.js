@@ -12,14 +12,13 @@ $(document).ready(function(){
     var recipes = [];
 
     var test_recipe = [
-        {'PrescriptionID': 1, 'RecipeID': 1, 'DoctorID': 1, 'PatientID': 1, 'Medicine': 'Rutinoscorbin', 'MedicineQuantity': '2 tabs', 'ExpirationDate': '2020-12-30', 'Note': ''},
-        {'PrescriptionID': 2, 'RecipeID': 1, 'DoctorID': 1, 'PatientID': 1, 'Medicine': 'Gripex', 'MedicineQuantity': '1 tab', 'ExpirationDate': '2020-12-30', 'Note': ''}
+    	{'PrescriptionID': 1, 'RecipeID': 1, 'DoctorID': 1, 'PatientID': 1, 'Medicine': 'Rutinoscorbin', 'MedicineQuantity': '2 tabs', 'ExpirationDate': '2020-12-30', 'Note': "Take 2 tablets a day. Morning and Evening."},
+    	{'PrescriptionID': 2, 'RecipeID': 1, 'DoctorID': 1, 'PatientID': 1, 'Medicine': 'Gripex', 'MedicineQuantity': '1 tab', 'ExpirationDate': '2020-12-30', 'Note': "Take once a day before going to sleep until fever stops"}
     ];
-    var test_recipe2 = [
-        {'PrescriptionID': 3, 'RecipeID': 2, 'DoctorID': 1, 'PatientID': 1, 'Medicine': 'Nothing', 'MedicineQuantity': '4 kg', 'ExpirationDate': '2020-12-30', 'Note': "Test"}
-    ];
-
     recipes.push(test_recipe);
+    var test_recipe2 = [
+    	{'PrescriptionID': 3, 'RecipeID': 2, 'DoctorID': 1, 'PatientID': 1, 'Medicine': 'Zabak', 'MedicineQuantity': '30 ml', 'ExpirationDate': '2010-12-30', 'Note': "Take 3 times a day."}
+    ];
     recipes.push(test_recipe2);
 
     var historyList = document.getElementById('patients_history_list');
