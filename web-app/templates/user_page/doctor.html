@@ -23,9 +23,33 @@
                         <div id="patient_name_surname"><span class='patients_data_label'>Patient's name: </span><span id='surname'></span></div>
                         <div id="patient_birthday"><span class='patients_data_label'>Patient's birthday: </span><span id='birthday'></span></div>
                         <div id="patient_insurance_status"><span class='patients_data_label'>Insurance status: </span><span id='insurance'></span></div>
+                        <button id="patients_history_btn" type="button" style="margin-top: 10px;">View/hide patient's history</button>
                     </div>
                 </label>
             </form>
+            <div class="section" id="list_placeholder">
+                <h2>Patient's history</h2>
+                <ul id="patients_history_list">
+                    <div id="patients_history_li_tmpl">
+                        <li class="recipe">
+                            <div class="recipe_info">
+                                <span class="recipe_id"></span>
+                                <span class="doctor_id"></span>
+                                <span class="recipe_date"></span>
+                            </div>
+                            <ul class="medicine-list">
+                                <div class="medicine-list-tmpl">
+                                    <li class="medicine">
+                                        <span class=medicine-name></span>
+                                        <span class="medicine-quantity"></span>
+                                        <span class="medicine-note"></span>
+                                    </li>
+                                </div>
+                            </ul>
+                        </li>
+                    </div>
+                </ul>
+            </div>
             <form class="add_recipe" id="add_recipe">
                 <h2>Add new recipe</h2>
                 <label for="doctor_ID">

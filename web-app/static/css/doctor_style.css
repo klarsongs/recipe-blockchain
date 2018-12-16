@@ -30,6 +30,8 @@ button {
     cursor: pointer;
 }
 
+
+
 #logout {
     color: white;
     background: none;
@@ -51,6 +53,10 @@ button {
     padding: 20px;
     box-shadow: 0 0 20px 0 rgba(0, 0, 0, 0.2), 0 5px 5px 0 rgba(0, 0, 0, 0.24);
     margin-bottom: 10px;
+}
+
+#list_placeholder {
+    display: none;
 }
 
 .add_recipe {

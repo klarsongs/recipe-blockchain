@@ -1,6 +1,5 @@
 // Remove li from list
 
-
 function myFunc(elem) {
     let li = elem.parentNode;
     li.parentNode.removeChild(li);
@@ -39,6 +38,76 @@ $(document).ready(function(){
             }
         });
     });
+
+    $('#patients_history_btn').click(function(event) {
+
+        const div = document.getElementById('list_placeholder');
+
+        // show the list/hide the list
+        if(div.style.display == 'block') {
+            div.style.display= 'none'
+        }else {
+            div.style.display= 'block'
+        }
+        
+        
+        // EXAMPLE VALUES FOR STYLING
+        
+        
+//        var recipes = [{'recipeId': '213', 'doctorId': '3243', 'recipeDate': '13-04-2018', 'medicinesList': [{'name': 'Rutinoscrobin', 'quantity': '20 packs', 'note': '10 tablets a day'}, {'name': 'Food', 'quantity': '30 kg', 'note': 'The best would be pizza'}]}];
+////        var recipeId = 213;
+////        var doctorId = 3243;
+////        var recipeDate = 13-04-2018;
+////        var medicinesList = [["Rutinoscorbin", "Food"],["20 packs", "30 mg"],["10 tablets a day"],["The best would be pizza"]];
+//        
+////        var historyList = document.getElementById('patients_history_list');
+//        
+//        for (var i = 0; i < recipes.length; i++) {
+//            var recipe = recipes[i];
+//            var tmpl = $('#patients_history_li_tmpl').clone();
+////            var tmpl = document.getElementById('patients_history_li_tmpl'), clone = tmpl.cloneNode(true);
+////            var tmpl = document.getElementById('patients_history_li_tmpl').content.cloneNode(true);
+//            tmpl.find('.recipe_info .recipe_id').text = recipe.recipeId;
+//            tmpl.find('.recipe_info .doctor_id').text = recipe.doctorId;
+//            tmpl.find('.recipe_info .recipe_date').text = 
+//            tmpl.recipeDate;
+//            
+////            var medicineList = document.getElementById('medicine-list');
+//            
+//            for (var j = 0; j < recipe.medicinesList.length; j++) {
+//                var medicine = recipe.medicinesList[j];
+//                var tmpl_medicine = $('#medicine-list-tmpl').clone();
+////                var tmpl_medicine = document.getElementById('medicine-list-tmpl'), clone = tmpl.cloneNode(true);
+////                var tmpl_medicine = document.getElementById('medicine-list-tmpl').content.cloneNode(true);
+//                tmpl_medicine.find('.medicine .medicine-name').text = medicine.name;
+//                tmpl_medicine.find('.medicine .medicine-quantity').text = medicine.quantity;
+//                tmpl_medicine.find('.medicine .medicine-note').text = medicine.note;
+////                medicineList.appendChild(tmpl_medicine);
+//                $('.medicine-list').append(tmpl_medicine)
+//            }
+//            
+//            $('#patients_history_list').append(tmpl);
+//        }
+        
+        
+//        var id = $('.new_visit .patient_ID').val();
+//
+//        $.ajax({
+//            type: "GET",
+//            url: "/doctor/get_patient_history/" + id,
+//            timeout: 600000,
+//
+//            success: function (data) {
+//                //success
+//            },
+//
+//            error: function (e) {
+//                alert('Error');
+//            }
+//        });
+
+    });
+
 
     //// FOR THE ADDING MEDICINES LIST ////
     // All Variables
