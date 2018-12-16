@@ -18,7 +18,7 @@ $(document).ready(function() {
     ];
     recipes.push(test_recipe);
     var test_recipe2 = [
-    	{'PrescriptionID': 3, 'RecipeID': 2, 'DoctorID': 1, 'PatientID': 1, 'Medicine': 'Nothing', 'MedicineQuantity': '4 kg', 'ExpirationDate': '2020-12-30', 'Note': "Test"}
+    	{'PrescriptionID': 3, 'RecipeID': 2, 'DoctorID': 1, 'PatientID': 1, 'Medicine': 'Nothing', 'MedicineQuantity': '4 kg', 'ExpirationDate': '2010-12-30', 'Note': "Test"}
     ];
     recipes.push(test_recipe2);
     
@@ -49,6 +49,7 @@ $(document).ready(function() {
 
         // assign recipe ID
         tmpl.querySelector('.recipe-id').innerText = recipe[0].RecipeID;
+        tmpl.querySelector('.expiration-date').innerText = recipe[0].ExpirationDate;
         
         // Iterate through recipe to check if all prescribed medicines are bought
         var closedTrans = 0;
@@ -62,17 +63,17 @@ $(document).ready(function() {
 		    }
         }
         var recipeClosed = (closedTrans == recipe.length);
-
+        tmpl.querySelector('.recipe-status').style.fontWeight = "bold";
         // chceck the recipe status
         if(local_time > recipe[0].ExpirationDate) {
             tmpl.querySelector('.recipe-status').innerText = "expired";
-            tmpl.querySelector('.recipe-status').style.color = "red";
+            tmpl.querySelector('.recipe-status').style.color = "#c44646";
         } else if (recipeClosed) {
             tmpl.querySelector('.recipe-status').innerText = "completed";
-            tmpl.querySelector('.recipe-status').style.color = "green";
+            tmpl.querySelector('.recipe-status').style.color = "#509b80";
         } else {
             tmpl.querySelector('.recipe-status').innerText = "not completed";
-            tmpl.querySelector('.recipe-status').style.color = "yellow";
+            tmpl.querySelector('.recipe-status').style.color = "#f4d142";
         }
 
         // check the doctor ID (probably should also show name)
@@ -93,6 +94,11 @@ $(document).ready(function() {
             tmpl_medicine_list.querySelector('.medicine-name').innerText = prescription.Medicine;
             tmpl_medicine_list.querySelector('.medicine-quantity').innerText = prescription.MedicineQuantity;
             tmpl_medicine_list.querySelector('.medicine-notes').innerText = prescription.Note;
+            
+            tmpl_medicine_list.querySelector('.medicine-name').innerHTML += ',';
+            if(prescription.Note !== ''){
+                tmpl_medicine_list.querySelector('.medicine-quantity').innerHTML += ',';
+            }
 
             // check if medicine is in the medicine list of transaction
             // if it is in the transaction, then marked as already bought
@@ -124,6 +130,11 @@ $(document).ready(function() {
         // now create list of transactions for a given recipe
         
         var transactionList = tmpl.querySelector('.transaction-list');
+        
+        if(transactions_arr.length === 0) {
+            $('.transactions #empty_info').hide();
+        }
+        
         for(var n = 0; n < transactions_arr.length; n++) {
             var transaction = transactions_arr[n];
             
@@ -132,6 +143,9 @@ $(document).ready(function() {
             tmpl_transaction_list.querySelector('.date').innerText = transaction.TransactionDate;
             tmpl_transaction_list.querySelector('.chemist-id').innerText = transaction.ChemistID;
             tmpl_transaction_list.querySelector('.value').innerText = transaction.MedicineValue;
+            
+            tmpl_transaction_list.querySelector('.date').innerHTML += ',';
+            tmpl_transaction_list.querySelector('.chemist-id').innerHTML += ',';
             
             // append the li of transaction to the list
             transactionList.appendChild(tmpl_transaction_list);

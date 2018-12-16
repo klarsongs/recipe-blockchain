@@ -3,60 +3,63 @@
         <script src="https://ajax.aspnetcdn.com/ajax/jQuery/jquery-3.3.1.min.js"></script>
         <link rel="stylesheet" type="text/css" href="static/css/login_style.css">
         <link rel="stylesheet" type="text/css" href="static/css/doctor_style.css">
+        <link rel="stylesheet" type="text/css" href="static/css/patient_style.css">
         <script src="static/js/main_script.js"></script>
         <script src="static/js/patient_script.js"></script>
     </head>
     <body>
-		<div id="templates" style="display: none">
+        <div id="templates" style="display: none">
 
-			<div id="recipe-template">
+            <div id="recipe-template">
                 <li class="recipe">
                     <div class="recipe-title">
-                        <span class="recipe-id"></span>
-                        <span class="recipe-status"></span>
+                        <div class="wrapper id"><span class="label">Recipe ID: </span><span class="recipe-id"></span></div>
+                        <div class="wrapper"><span class="label">Doctor ID: </span><span class="doctor-id"></span></div>
+                        <div class="wrapper"><span class="label">Recipe status: </span><span class="recipe-status"></span></div>
+                        <div class="wrapper"><span class="label">Expiration date: </span><span class="expiration-date"></span></div>
                     </div>
-                    <div class="doctor-data">
-                        <span class=label>Doctor:</span>
-                        <span class="doctor-id"></span>
-                    </div>
-                    <div class="medicines">
-                        <span class=label>Medicines:</span>
-                        <ul class="medicine-list">
-                            <!-- MEDICINE-LIST TEMPLATE -->
-                        </ul>
-                    </div>
-                    <div class="transactions">
-                        Transactions
-                        <ol class="transaction-list">
-                            <!-- TRANSACTION LIST TEMPLATE -->
-                        </ol>
-                    </div>
+                    <div class="content">
+
+                        <div class="medicines">
+                            <span class="label medicines-list">Medicines</span>
+                            <ul class="medicine-list">
+                                <!-- MEDICINE-LIST TEMPLATE -->
+                            </ul>
+                        </div>
+                        <div class="transactions" id="transaction-section">
+                            <span class="label medicines-list">Transactions</span>
+                            <div id="empty_info">None</div>
+                            <ol class="transaction-list">
+                                <!-- TRANSACTION LIST TEMPLATE -->
+                            </ol>
+                        </div>
+                    </div>    
                 </li>
             </div>
 
-			<div id="medicine-list-template">
+            <div id="medicine-list-template">
                 <li class="medicine">
-                    <span class=label>Name:</span><span class="medicine-name"></span>
-                    <span class=label>Quantity:</span><span class="medicine-quantity"></span>
-                    <span class=label>Notes:</span><span class="medicine-notes"></span>    
+                    <span class=label>Name: </span><span class="medicine-name"></span>
+                    <span class=label>quantity: </span><span class="medicine-quantity"></span>
+                    <span class=label>notes: </span><span class="medicine-notes"></span>    
                 </li>
             </div>
 
-			<div id="transaction-list-template">
+            <div id="transaction-list-template">
                 <li class="transaction">
-                    <span class=label>Date:</span><span class="date"></span>
-                    <span class=label>Chemist ID:</span><span class="chemist-id"></span>
-                    <span class=label>Value:</span><span class="value"></span>
+                    <span class=label>Date: </span><span class="date"></span>
+                    <span class=label>chemist ID: </span><span class="chemist-id"></span>
+                    <span class=label>value: </span><span class="value"></span>
                 </li>
             </div>
 
-		</div>
+        </div>
 
         <div class="index-page">
             <button id="logout" style="float: right">Logout</button>
             <h1>Welcome, {{FirstName}} {{LastName}}</h1> <br/>
             <div id="personal_info" class="section">
-                <h2>Your personal information:</h2>
+                <h2>Your personal information</h2>
                 Your ID number is: {{id}} <br>
                 Your insurance status is: {{insurance}}
             </div>
