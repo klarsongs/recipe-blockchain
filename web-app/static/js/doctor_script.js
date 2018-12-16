@@ -88,7 +88,42 @@ $(document).ready(function(){
 //            
 //            $('#patients_history_list').append(tmpl);
 //        }
-        
+
+		var recipes = [];
+
+		var test_recipe = [
+			{'PrescriptionID': 1, 'RecipeID': 1, 'DoctorID': 1, 'PatientID': 1, 'Medicine': 'Rutinoscorbin', 'MedicineQuantity': '2 tabs', 'ExpirationDate': '2020-12-30', 'Note': ''},
+			{'PrescriptionID': 2, 'RecipeID': 1, 'DoctorID': 1, 'PatientID': 1, 'Medicine': 'Gripex', 'MedicineQuantity': '1 tab', 'ExpirationDate': '2020-12-30', 'Note': ''}
+		];
+		recipes.push(test_recipe);
+
+        var historyList = document.getElementById('patients_history_list');
+        for (var i = 0; i < recipes.length; i++) {
+            var recipe = recipes[i];
+            
+            // using the template from html, clone it
+        	var tmpl = document.getElementById('patients_history_li_tmpl').cloneNode(true);
+			
+			tmpl.querySelector('.recipe_info').querySelector('.recipe_id').innerText = recipe[0].RecipeID;
+			tmpl.querySelector('.recipe_info').querySelector('.doctor_id').innerText = recipe[0].DoctorID;
+			tmpl.querySelector('.recipe_info').querySelector('.recipe_date').innerText = recipe[0].ExpirationDate;
+			
+			var medicineList = tmpl.querySelector('.medicine-list');
+			
+			for(var j = 0; j < recipe.length; j++) {
+		        var prescription = recipe[j];
+
+		        // use template for medicine-list
+		        var tmpl_medicine_list = document.getElementById('medicine-list-tmpl').cloneNode(true);
+
+		        tmpl_medicine_list.querySelector('.medicine-name').innerText = prescription.Medicine;
+		        tmpl_medicine_list.querySelector('.medicine-quantity').innerText = prescription.MedicineQuantity;
+		        tmpl_medicine_list.querySelector('.medicine-note').innerText = prescription.Note;
+		        
+		        medicineList.appendChild(tmpl_medicine_list);
+			}
+        }
+        historyList.appendChild(tmpl);
         
 //        var id = $('.new_visit .patient_ID').val();
 //
