@@ -1,35 +1,36 @@
 <html>
-<head>
-    <script src="https://ajax.aspnetcdn.com/ajax/jQuery/jquery-3.3.1.min.js"></script>
-    <link rel="stylesheet" type="text/css" href="static/css/login_style.css">
-    <script src="static/js/login_script.js"></script>
-</head>
-<body>
-<div class="login-page">
-  <div class="form">
-    <div class="logo">e-recipe</div>
-    <form class="register-form" id="register-form">
-      <input list="role" placeholder="role" class="role"/>
-        <datalist id="role">
-        <option value="Patient">
-        <option value="Doctor">
-        <option value="Chemist">
-        </datalist>
-      <input type="text" placeholder="name" class="name"/>
-        <input type="text" placeholder="surname" class="surname"/>
-      <input type="password" placeholder="password" class="password"/>
-      <input type="text" placeholder="email address" class="email"/>
-      <button>create</button>
-      <p class="message">Already registered? <a href="#">Sign In</a></p>
-    </form>
-    <form class="login-form" id="login-form">
-      <input type="text" placeholder="email address" class="email"/>
-      <input type="password" placeholder="password" class="password"/>
-      <button>login</button>
-      <p class="message">Not registered? <a href="#">Create an account</a></p>
-    </form>
-  </div>
-</div>
-</body>
+    <head>
+        <script src="https://ajax.aspnetcdn.com/ajax/jQuery/jquery-3.3.1.min.js"></script>
+        <link rel="stylesheet" type="text/css" href="static/css/login_style.css">
+        <script src="static/js/login_script.js"></script>
+    </head>
+    <body>
+        <div class="login-page">
+            <div class="form">
+                <div class="logo">e-recipe</div>
+                <form class="register-form" id="register-form">
+                    <input list="role" placeholder="role" class="role"/>
+                    <datalist id="role">
+                        <option value="Patient">
+                        <option value="Doctor">
+                        <option value="Chemist">
+                    </datalist>
+                    <input type="text" placeholder="name" class="name"/>
+                    <input type="text" placeholder="surname" class="surname"/>
+                    <input placeholder="birthday" class="birthday" type="text" onfocus="(this.type='date')" onblur="(this.type='text')"/>
+                    <input type="password" placeholder="password" class="password"/>
+                    <input type="text" placeholder="email address" class="email"/>
+                    <button>create</button>
+                    <p class="message">Already registered? <a href="#">Sign In</a></p>
+                </form>
+                <form class="login-form" id="login-form">
+                    <input type="text" placeholder="email address" class="email"/>
+                    <input type="password" placeholder="password" class="password"/>
+                    <button>login</button>
+                    <p class="message">Not registered? <a href="#">Create an account</a></p>
+                </form>
+            </div>
+        </div>
+    </body>
 </html>
 

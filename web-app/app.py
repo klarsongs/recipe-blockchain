@@ -1,6 +1,7 @@
 from flask import Flask, jsonify, request, make_response, session, render_template, url_for, redirect
 from flask_sqlalchemy import SQLAlchemy
 from werkzeug.security import generate_password_hash, check_password_hash
+from datetime import datetime
 
 import requests
 import json
@@ -27,6 +28,7 @@ class User(db.Model):
     insurance = db.Column(db.Integer)
     password = db.Column(db.String(255))
     email = db.Column(db.String(255))
+    birthday = db.Column(db.Date)
 
 
 db.create_all()
@@ -58,6 +60,8 @@ def create_user():
     insurance = postedData["insurance"]
     password = postedData["password"]
     email = postedData["email"]
+    birthday_datetime = datetime.strptime(postedData["birthday"], '%Y-%m-%d')
+    birthday = birthday_datetime.date()
 
     if '' in postedData.values():
         return jsonify({'success': False, 'message': 'All fields must be filled'})
@@ -68,9 +72,9 @@ def create_user():
     if user:
         return jsonify({'success': False, 'message' : 'user already exists'})
 
-    hashed_password = generate_password_hash(postedData["password"], method='sha256')
+    hashed_password = generate_password_hash(password, method='sha256')
 
-    new_user = User(FirstName=postedData["FirstName"],LastName=postedData["LastName"],Role = postedData["Role"],insurance = postedData["insurance"],password=hashed_password, email=postedData["email"])
+    new_user = User(FirstName=FirstName, LastName=LastName, Role = Role,insurance = insurance, password=hashed_password, email=email, birthday=birthday)
     db.session.add(new_user)
     db.session.commit()
     db.session.commit()
@@ -173,7 +177,7 @@ def get_recipe(id):
 def get_patient(id):
     patient = User.query.filter_by(id=id).first()
     name = patient.FirstName + " " + patient.LastName
-    birthday = "13.07.1995"
+    birthday = patient.birthday
     insurance = patient.insurance
     return jsonify({'name': name, 'birthday': birthday, 'insurance': insurance})
 

@@ -17,8 +17,9 @@ $(document).ready(function(){
         var surnameVal = $('.register-form .surname').val();
         var passwordVal = $('.register-form .password').val();
         var emailVal = $('.register-form .email').val();
+        var birthdayVal = $('.register-form .birthday').val();
 
-        if(validateEmail(emailVal) == false) {
+        if(validateEmail(emailVal) === false) {
             alert("Email address is not valid.");
             return false;
         }
@@ -30,7 +31,8 @@ $(document).ready(function(){
             FirstName: nameVal,
             LastName: surnameVal,
             Role: roleVal,
-            insurance: 'Unknown'
+            insurance: 'Unknown', //should be filled by the administrator
+            birthday: birthdayVal
         }
 
         // Disable submit button (to prevent multiplication of requests)

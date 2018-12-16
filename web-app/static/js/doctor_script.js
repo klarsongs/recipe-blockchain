@@ -18,19 +18,18 @@ $(document).ready(function(){
             timeout: 600000,
 
             success: function (data) {
-                alert("success");
                 $('#add_recipe_btn').prop("disabled", true);
                 var div = document.getElementById('patients_data');
                 div.style.display = 'block';
                 var name = data.name;
                 var birthday = data.birthday;
                 var insurance = data.insurance;
-                var name_element = document.getElementById('patient_name_surname');
-                var birthday_element = document.getElementById('patient_birthday');
-                var insurance_element = document.getElementById('patient_insurance');
-                name_element.innerHTML += name;
-                birthday_element.innerHTML += birthday;
-                insurance_element.innerHTML += insurance;
+                var name_element = document.getElementById('surname');
+                var birthday_element = document.getElementById('birthday');
+                var insurance_element = document.getElementById('insurance');
+                name_element.innerHTML = name;
+                birthday_element.innerHTML = birthday;
+                insurance_element.innerHTML = insurance;
 
                 $('#add_recipe_btn').prop("disabled", false);
             },
