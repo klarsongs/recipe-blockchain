@@ -31,7 +31,7 @@ CREATE TABLE `user` (
   `insurance_number` varchar(45) DEFAULT NULL,
   `insurance_starting_date` DATE DEFAULT NULL,
   `insurance_expired_date` DATE DEFAULT NULL,
-  `insurance_status` int(1) DEFAULT NULL,
+  `birthday` DATE DEFAULT NULL,
   `password` varchar(255) DEFAULT NULL,
   PRIMARY KEY (`idUser`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
