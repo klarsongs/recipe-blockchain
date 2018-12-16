@@ -13,14 +13,18 @@ $(document).ready(function() {
     
     // TEST values - later should be load from json
     var test_recipe = [
-    	{'PrescriptionID': 1, 'RecipeID': 1, 'DoctorID': 1, 'PatientID': 1, 'Medicine': 'Rutinoscorbin', 'MedicineQuantity': '2 tabs', 'ExpirationDate': '2020-12-30', 'Note': ''},
-    	{'PrescriptionID': 2, 'RecipeID': 1, 'DoctorID': 1, 'PatientID': 1, 'Medicine': 'Gripex', 'MedicineQuantity': '1 tab', 'ExpirationDate': '2020-12-30', 'Note': ''}
+    	{'PrescriptionID': 1, 'RecipeID': 1, 'DoctorID': 1, 'PatientID': 1, 'Medicine': 'Rutinoscorbin', 'MedicineQuantity': '2 tabs', 'ExpirationDate': '2020-12-30', 'Note': "Won't help"},
+    	{'PrescriptionID': 2, 'RecipeID': 1, 'DoctorID': 1, 'PatientID': 1, 'Medicine': 'Gripex', 'MedicineQuantity': '1 tab', 'ExpirationDate': '2020-12-30', 'Note': "Could help"}
     ];
     recipes.push(test_recipe);
+    var test_recipe2 = [
+    	{'PrescriptionID': 3, 'RecipeID': 2, 'DoctorID': 1, 'PatientID': 1, 'Medicine': 'Nothing', 'MedicineQuantity': '4 kg', 'ExpirationDate': '2020-12-30', 'Note': "Test"}
+    ];
+    recipes.push(test_recipe2);
     
-    var test_transaction = {'TransactionID': 1, 'PrescriptionID': 1, 'RecipeID': 1, 'DoctorID': 1, 'PatientID': 1, 
+    var test_transaction = {'TransactionID': 1, 'PrescriptionID': 1, 'RecipeID': 1, 'DoctorID': 1, 'PatientID': 1, 'ChemistID': 1,
     						'Medicine': 'Rutinoscorbin', 'MedicineQuantity': '2 tabs', 'MedicineValue': 4.80, 'TransactionDate': '2020-12-31', 'Closed': true};
-    //transactions.push(test_transaction);
+    transactions.push(test_transaction);
     
     // END OF TEST values
 
@@ -34,7 +38,7 @@ $(document).ready(function() {
         var transactions_arr = [];
 
         // find corresponding transactions
-        for(var k = 0; i < transactions.length; i++) {
+        for(var k = 0; k < transactions.length; k++) {
             if(transactions[k].RecipeID === recipe[0].RecipeID) {
                 transactions_arr.push(transactions[k]);
             }
@@ -103,17 +107,15 @@ $(document).ready(function() {
             }
             */
             
-            for (var l = 0; l < recipe.length; l++) {
-            	var prescription = recipe[l];
-				for (transaction of transactions_arr) {
-					if (transaction.PrescriptionID != prescription.PrescriptionID)
-						continue;	// Skip transactions not related to the currently checked prescription
-						
-					alert(tmpl_medicine_list.querySelector('.medicine'));
-					if (transaction.Closed == true)
-						tmpl_medicine_list.querySelector('.medicine')[0].style.textDecoration = "overline";
-				}
-		    }
+
+			for (transaction of transactions_arr) {
+				if (transaction.PrescriptionID != prescription.PrescriptionID)
+					continue;	// Skip transactions not related to the currently checked prescription
+					
+				if (transaction.Closed == true)
+					tmpl_medicine_list.querySelector('.medicine').style.textDecoration = "line-through";
+			}
+
             
             // append the li of medicines to the list
             medicineList.appendChild(tmpl_medicine_list);
@@ -127,9 +129,9 @@ $(document).ready(function() {
             
             var tmpl_transaction_list = document.getElementById('transaction-list-template').cloneNode(true);
             
-            tmpl_transaction_list.querySelector('.date').innerText = transaction.Date;
+            tmpl_transaction_list.querySelector('.date').innerText = transaction.TransactionDate;
             tmpl_transaction_list.querySelector('.chemist-id').innerText = transaction.ChemistID;
-            tmpl_transaction_list.querySelector('.value').innerText = transaction.Value;
+            tmpl_transaction_list.querySelector('.value').innerText = transaction.MedicineValue;
             
             // append the li of transaction to the list
             transactionList.appendChild(tmpl_transaction_list);
