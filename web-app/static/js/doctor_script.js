@@ -195,6 +195,9 @@ $(document).ready(function(){
             var medicine_val = medicines_vals[i].innerHTML;
             var quantity_val = quantity_vals[i].innerHTML;
             var note_vals = quantity_vals[i].innerHTML;
+            
+            var date = new Date();
+            var date_val = new Date(date.getTime() - (date.getTimezoneOffset() * 60000)).toJSON().slice(0,19)
 
             const obj = {
                 "DoctorID": doctorID_val,
@@ -202,7 +205,8 @@ $(document).ready(function(){
                 "Medicine": medicine_val,
                 "Quantity": quantity_val,
                 "ExpirationDate": expiration_val,
-                "Note": note_val
+                "Note": note_val,
+                "Date": date_val
             }
 
             // Disable submit button (to prevent multiplication of requests)
