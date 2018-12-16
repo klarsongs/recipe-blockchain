@@ -1,0 +1,38 @@
+ul#recipe-list {
+    max-height: 400px;
+    overflow: auto;
+}
+
+.recipe {
+    cursor: default;
+    margin-bottom: 10px;
+}
+
+.recipe-title {
+    background: white;
+    padding: 10px;
+}
+
+.doctor-data {
+    float: right;
+}
+
+.content {
+    letter-spacing: 0.5px;
+    padding: 10px;
+    font-size: 14px;
+    line-height: 2;
+}
+
+.wrapper {
+    width: 28%;
+    font-size: 12px;
+}
+
+.wrapper.id {
+    width: 12%;
+}
+
+.label.medicines-list {
+    text-decoration: underline;
+}
