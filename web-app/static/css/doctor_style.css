@@ -239,6 +239,15 @@ button#add_recipe_btn {
 
 /* PATIENT'S HISTORY */
 
+.wrapper.middle {
+    text-align: center;
+}
+
+.wrapper.right {
+    text-align: right;
+}
+
+
 .list_placeholder {
     max-height: 600px;
     overflow: auto;

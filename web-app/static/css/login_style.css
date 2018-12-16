@@ -5,6 +5,10 @@ body {
     cursor: default;
 }
 
+button:hover {
+    opacity: 0.8;
+}
+
 label, input {
     display: block;
 }

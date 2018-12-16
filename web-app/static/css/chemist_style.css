@@ -1,4 +1,4 @@
-#recipe {
+#recipes {
     display: none;
 }
 
@@ -30,4 +30,13 @@ input#medicine-quantity {
 #add_medicine_btn {
     top: 12px;
     right: -25px;
+}
+
+#copy_recipe {
+    margin-top: 10px;
+}
+
+
+.recipe {
+    margin-bottom: 10px;
 }

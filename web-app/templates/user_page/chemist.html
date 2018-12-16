@@ -17,15 +17,17 @@
                 <input type="number" id="patients_id" placeholder="Patient ID">
                 <button type="button" id="get_recipe_btn">Get recipe</button>
             </div>
-            <div id="recipe" class="section">
-                <h2>Recipe</h2>
-                <h3>Doctor ID</h3>
+            <div id="recipes" class="section">
+                <h2>Recipes</h2>
+                <ul id="pending-recipes"></ul>
+<!--                <h3>Doctor ID</h3>-->
+<!--
                 <input type="number" class="read-recipe-elements" id="read-recipe-elements-doctor" readonly>
                 <h3>Medicines</h3>
                 <ul class="read-recipe-elements" id="read-recipe-elements-medicines"></ul>
                 <h3>Expiration date</h3>
                 <input type="date" class="read-recipe-elements" id="read-recipe-elements-expiration" readonly>
-                <button id="copy_recipe" type="button">Copy to transaction</button>
+-->
             </div>
             <div id="add_transaction" class="section">
                 <h2>Add transaction</h2>
@@ -66,4 +68,26 @@
             </div>
         </div>
     </body>
+    <div id="templates" style="display: none;">
+		<div id="patients_history_li_tmpl">
+			<li class="recipe">
+				<div class="recipe_info">
+					<div class="wrapper"><span class="label">Recipe ID: </span><span class="recipe_id"></span></div>
+					<div class="wrapper middle"><span class="label">Doctor ID: </span><span class="doctor_id"></span></div>
+					<div class="wrapper right"><span class="label">Date: </span><span class="recipe_date"></span></div>
+				</div>
+				<ul class="medicine-list">
+					<!-- MEDICINE LIST TEMPLATE -->
+				</ul>
+                <button id="copy_recipe" type="button">Copy to transaction</button>
+			</li>
+	    </div>
+
+		<div id="medicine-list-tmpl">
+	        <li class="medicine">
+	            <span class=medicine-name></span>
+	            <span class="medicine-quantity"></span>
+	        </li>
+	    </div>
+	</div>
 </html>
