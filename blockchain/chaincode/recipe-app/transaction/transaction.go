@@ -15,9 +15,10 @@ type SmartContract struct {
 }
 
 type Transaction struct {
-	idTransaction string `json:"idTransaction"`
+	TransactionID string `json:"TransactionID"`
 	ChemistID string `json:"ChemistID"`
 	PrescriptionID  string `json:"PrescriptionID"`
+	RecipeID string `json:"RecipeID"`
 	DoctorID string `json:"DoctorID"`
 	PatientID  string `json:"PatientID"`
 	Medicine string `json:"Medicine"`
@@ -45,6 +46,8 @@ func (s *SmartContract) Invoke(APIstub shim.ChaincodeStubInterface) sc.Response 
 		return s.queryAllTransaction(APIstub)
 	} else if function == "changClosedStatus" {
 		return s.changClosedStatus(APIstub, args)
+	} else if function == "queryPatientTransactions" {
+		return s.queryPatientTransactions(APIstub, args)
 	}
 
 	return shim.Error("Invalid Smart Contract function name.")
@@ -65,10 +68,10 @@ func (s *SmartContract) queryTransaction(APIstub shim.ChaincodeStubInterface, ar
 }
 
 func (s *SmartContract) initLedger(APIstub shim.ChaincodeStubInterface) sc.Response {
-	transaction := []transaction{
-    Transaction{idTransaction: "1", ChemistID: "1", PrescriptionID: "1", DoctorID: "5", PatientID: "21", Medicine: "Adderall", MedicineQuantity: "100", MedicineValue: "200", TransactionDate: "03-12-2017", Closed: "True"},
-    Transaction{idTransaction: "2", ChemistID: "3", PrescriptionID: "22", DoctorID: "1", PatientID: "9", Medicine: "Advil", MedicineQuantity: "20", MedicineValue: "20", TransactionDate: "04-12-2017", Closed: "True"},
-    Transaction{idTransaction: "3", ChemistID: "2", PrescriptionID: "11", DoctorID: "6", PatientID: "27", Medicine: "morphine", MedicineQuantity: "5", MedicineValue: "65", TransactionDate: "05-12-2018", Closed: "False"},
+	transaction := []Transaction{
+    Transaction{TransactionID: "1", ChemistID: "1", PrescriptionID: "1", RecipeID: "1", DoctorID: "1", PatientID: "1", Medicine: "Adderall", MedicineQuantity: "100", MedicineValue: "200", TransactionDate: "03-12-2017", Closed: "True"},
+    Transaction{TransactionID: "2", ChemistID: "3", PrescriptionID: "2", RecipeID: "1", DoctorID: "1", PatientID: "9", Medicine: "Advil", MedicineQuantity: "20", MedicineValue: "20", TransactionDate: "04-12-2017", Closed: "True"},
+    Transaction{TransactionID: "3", ChemistID: "2", PrescriptionID: "11", RecipeID: "2", DoctorID: "6", PatientID: "27", Medicine: "Morphine", MedicineQuantity: "5", MedicineValue: "65", TransactionDate: "05-12-2018", Closed: "False"},
 	}
 
 	i := 0
@@ -90,7 +93,7 @@ func (s *SmartContract) recordTransaction(APIstub shim.ChaincodeStubInterface, a
 		return shim.Error("Incorrect number of arguments. Expecting 11")
 	}
 
-	var transaction = Transaction{ idTransaction: args[1], ChemistID: args[2], PrescriptionID: args[3], DoctorID: args[4], PatientID: args[6], Medicine: args[7], MedicineQuantity: args[8], MedicineValue: args[9], TransactionDate: args[10], Closed: args[11]}
+	var transaction = Transaction{ TransactionID: args[1], ChemistID: args[2], PrescriptionID: args[3], DoctorID: args[4], PatientID: args[6], Medicine: args[7], MedicineQuantity: args[8], MedicineValue: args[9], TransactionDate: args[10], Closed: args[11]}
 
 	transactionAsBytes, _ := json.Marshal(transaction)
 	err := APIstub.PutState(args[0], transactionAsBytes)
@@ -143,6 +146,55 @@ func (s *SmartContract) queryAllTransaction(APIstub shim.ChaincodeStubInterface)
 	return shim.Success(buffer.Bytes())
 }
 
+func (s *SmartContract) queryPatientTransactions(APIstub shim.ChaincodeStubInterface, args []string) sc.Response {
+
+	if len(args) != 1 {
+		return shim.Error("Incorrect number of arguments. Expecting 1")
+	}	
+
+	startKey := "0"
+	endKey := "999"
+
+	resultsIterator, err := APIstub.GetStateByRange(startKey, endKey)
+	if err != nil {
+		return shim.Error(err.Error())
+	}
+	defer resultsIterator.Close()
+
+	// buffer is a JSON array containing QueryResults
+	var buffer bytes.Buffer
+	buffer.WriteString("[")
+
+	bArrayMemberAlreadyWritten := false
+	for resultsIterator.HasNext() {
+		queryResponse, err := resultsIterator.Next()
+		if err != nil {
+			return shim.Error(err.Error())
+		}
+
+		transactionAsBytes := queryResponse.Value
+		transaction := Transaction{}
+		json.Unmarshal(transactionAsBytes, &transaction)
+
+		// Here can modify or check data
+		if transaction.PatientID != string(args[0]) {
+			continue
+		}
+
+		if bArrayMemberAlreadyWritten == true {
+			buffer.WriteString(",")
+		}
+
+		buffer.WriteString(string(queryResponse.Value))
+		bArrayMemberAlreadyWritten = true
+	}
+	buffer.WriteString("]")
+
+	//fmt.Printf("- queryAllTransaction:\n%s\n", buffer.String())
+
+	return shim.Success(buffer.Bytes())
+}
+
 func (s *SmartContract) changClosedStatus(APIstub shim.ChaincodeStubInterface, args []string) sc.Response {
 
 	if len(args) != 2 {
@@ -156,7 +208,7 @@ func (s *SmartContract) changClosedStatus(APIstub shim.ChaincodeStubInterface, a
 	transaction := Transaction{}
 
 	json.Unmarshal(transactionAsBytes, &transaction)
-	transaction.Info = args[1]
+	//transaction.Info = args[1]
 
 	transactionAsBytes, _ = json.Marshal(transaction)
 	err := APIstub.PutState(args[0], transactionAsBytes)
