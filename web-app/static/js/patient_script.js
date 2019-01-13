@@ -1,3 +1,41 @@
+function queryRecipes(recipes, transactions, recipeList, local_time) {
+    $.ajax({
+        type: "GET",
+        url: "/patient/get_recipes",
+        timeout: 600000,
+
+        success: function (data) {
+            var queried_recipes = JSON.parse(data);
+		    recipes.push.apply(recipes, queried_recipes);
+            //console.log(recipes);
+            queryTransactions(recipes, transactions, recipeList, local_time);
+        },
+
+        error: function (e) {
+            alert('Error');
+        }
+    });
+}
+
+function queryTransactions(recipes, transactions, recipeList, local_time) {
+    $.ajax({
+        type: "GET",
+        url: "/patient/get_transactions",
+        timeout: 600000,
+
+        success: function (data) {
+            var queried_transactions = JSON.parse(data);
+		    transactions.push.apply(transactions, queried_transactions);
+            //console.log(transactions);
+            fillData(recipes, transactions, recipeList, local_time);
+        },
+
+        error: function (e) {
+            alert('Error');
+        }
+    });
+}
+
 $(document).ready(function() {
 
     /////get current time for later comparisons
@@ -12,19 +50,7 @@ $(document).ready(function() {
     var recipeList = document.getElementById('recipe-list');
     
     // Load data from blockchain
-    $.ajax({
-        type: "GET",
-        url: "/patient/get_recipes/",
-        timeout: 600000,
-
-        success: function (data) {
-            console.log(data);
-        },
-
-        error: function (e) {
-            alert('Error');
-        }
-    });
+    queryRecipes(recipes, transactions, recipeList, local_time);
     
     // TEST values - later should be load from json
 	/*
@@ -43,8 +69,9 @@ $(document).ready(function() {
     transactions.push(test_transaction);
     */
     // END OF TEST values
+});
 
-
+function fillData(recipes, transactions, recipeList, local_time) {
     for(var i = 0; i < recipes.length; i++) {
 
 		// array with all prescriptions corresponding to single recipe
@@ -135,7 +162,7 @@ $(document).ready(function() {
 				if (transaction.PrescriptionID != prescription.PrescriptionID)
 					continue;	// Skip transactions not related to the currently checked prescription
 					
-				if (transaction.Closed == true)
+				if (transaction.Closed == "True")
 					tmpl_medicine_list.querySelector('.medicine').style.textDecoration = "line-through";
 			}
 
@@ -172,5 +199,4 @@ $(document).ready(function() {
         //tmpl.style.display = 'block';
         recipeList.appendChild(tmpl);
     }
-    
-});
+}

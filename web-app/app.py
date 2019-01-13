@@ -136,7 +136,7 @@ def index():
             session.clear()
 
 @app.route('/chemist/add_transaction', methods=['POST'])
-def add_transaction():
+def chemist_add_transaction():
     data = request.get_json()
     # TODO: Check if data is valid?
 
@@ -154,7 +154,7 @@ def add_transaction():
         abort(400)  # Bad request
 
 @app.route('/doctor/add_recipe', methods=['POST'])
-def add_recipe():
+def doctor_add_recipe():
     data = request.get_json()
      # TODO: Check if data is valid?
 
@@ -173,7 +173,7 @@ def add_recipe():
         abort(400)  # Bad request
 
 @app.route('/chemist/get_recipe/<id>', methods=['GET'])
-def get_recipe(id):
+def chemist_get_recipe(id):
     response = chaincodes.get_recipe_by_patient(id)
     if response is not None:
         return response
@@ -181,7 +181,7 @@ def get_recipe(id):
         abort(404)  # Not found
 
 @app.route('/doctor/get_patient/<id>', methods=['GET'])
-def get_patient(id):
+def doctor_get_patient(id):
     patient = User.query.filter_by(id=id).first()
     name = patient.FirstName + " " + patient.LastName
     birthday = patient.birthday
@@ -190,22 +190,22 @@ def get_patient(id):
 
 
 @app.route('/patient/get_recipes', methods=['GET'])
-def get_recipe():
+def patient_get_recipes():
 	id = session['id'] 
-    response = chaincodes.get_recipe_by_patient(id)
-    if response is not None:
-        return response
-    else:
-        abort(404)  # Not found
+	response = chaincodes.get_recipe_by_patient(id)
+	if response is not None:
+		return response
+	else:
+		abort(404)  # Not found
 
 @app.route('/patient/get_transactions', methods=['GET'])
-def get_recipe():
+def patient_get_transactions():
 	id = session['id'] 
-    response = chaincodes.get_transaction_by_patient(id)
-    if response is not None:
-        return response
-    else:
-        abort(404)  # Not found
+	response = chaincodes.get_transaction_by_patient(id)
+	if response is not None:
+		return response
+	else:
+		abort(404)  # Not found
 
 
 if __name__ == '__main__':

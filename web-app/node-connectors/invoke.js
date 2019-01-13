@@ -10,10 +10,11 @@
 
 // Retrieve arguments
 var args = process.argv.slice(2);
-var query_channel = args[0];
-var query_chaincode = args[1];
-var query_fcn = args[2];
-var query_args = args.slice(3);
+var user = args[0];
+var query_channel = args[1];
+var query_chaincode = args[2];
+var query_fcn = args[3];
+var query_args = args.slice(4);
 
 var Fabric_Client = require('fabric-client');
 var path = require('path');
@@ -49,21 +50,19 @@ Fabric_Client.newDefaultKeyValueStore({ path: store_path
 	fabric_client.setCryptoSuite(crypto_suite);
 
 	// get the enrolled user from persistence, this user will sign all requests
-	return fabric_client.getUserContext('user1', true);
+	return fabric_client.getUserContext(user+'1', true);
 }).then((user_from_store) => {
 	if (user_from_store && user_from_store.isEnrolled()) {
-		console.log('Successfully loaded user1 from persistence');
+		console.log('Successfully loaded ' + user + '1 from persistence');
 		member_user = user_from_store;
 	} else {
-		throw new Error('Failed to get user1.... run registerUser.js');
+		throw new Error('Failed to get ' + user + '1.... run register' user + '.js');
 	}
 
 	// get a transaction id object based on the current user assigned to fabric client
 	tx_id = fabric_client.newTransactionID();
 	console.log("Assigning transaction_id: ", tx_id._transaction_id);
 
-	// createCar chaincode function - requires 5 args, ex: args: ['CAR12', 'Honda', 'Accord', 'Black', 'Tom'],
-	// changeCarOwner chaincode function - requires 2 args , ex: args: ['CAR10', 'Dave'],
 	// must send the proposal to endorsing peers
 	var request = {
 		//targets: let default to the peer assigned to the client

@@ -10,10 +10,11 @@
 
 // Retrieve arguments
 var args = process.argv.slice(2);
-var query_channel = args[0];
-var query_chaincode = args[1];
-var query_fcn = args[2];
-var query_args = args.slice(3);
+var user = args[0];
+var query_channel = args[1];
+var query_chaincode = args[2];
+var query_fcn = args[3];
+var query_args = args.slice(4);
 
 var Fabric_Client = require('fabric-client');
 var path = require('path');
@@ -47,13 +48,13 @@ Fabric_Client.newDefaultKeyValueStore({ path: store_path
 	fabric_client.setCryptoSuite(crypto_suite);
 
 	// get the enrolled user from persistence, this user will sign all requests
-	return fabric_client.getUserContext('user1', true);
+	return fabric_client.getUserContext(user + '1', true);
 }).then((user_from_store) => {
 	if (user_from_store && user_from_store.isEnrolled()) {
 		//console.log('Successfully loaded user1 from persistence');
 		member_user = user_from_store;
 	} else {
-		throw new Error('Failed to get user1.... run registerUser.js');
+		throw new Error('Failed to get ' + user + '1.... run register' + user + '.js');
 	}
 
 	// queryCar chaincode function - requires 1 argument, ex: args: ['CAR4'],

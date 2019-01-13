@@ -224,10 +224,15 @@ func (s *SmartContract) queryPatientRecipes(APIstub shim.ChaincodeStubInterface,
 	var buffer bytes.Buffer
 	buffer.WriteString("[")
 	
+	i := 0;
 	for _, recipe := range recipes {
 		buffer.WriteString("[")
-		buffer.WriteString(strings.Join(recipe, "],["))
+		buffer.WriteString(strings.Join(recipe, ","))
 		buffer.WriteString("]")
+		if i < len(recipe) - 1 {
+			buffer.WriteString(",")
+		}
+		i++;
 	}
 	
 	buffer.WriteString("]")
@@ -295,10 +300,15 @@ func (s *SmartContract) queryPatientOpenRecipes(APIstub shim.ChaincodeStubInterf
 	var buffer bytes.Buffer
 	buffer.WriteString("[")
 	
+	i := 0;
 	for _, recipe := range recipes {
 		buffer.WriteString("[")
-		buffer.WriteString(strings.Join(recipe, "],["))
+		buffer.WriteString(strings.Join(recipe, ","))
 		buffer.WriteString("]")
+		if i < len(recipe) - 1 {
+			buffer.WriteString(",")
+		}
+		i++;
 	}
 	
 	buffer.WriteString("]")
