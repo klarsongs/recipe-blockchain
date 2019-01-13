@@ -39,10 +39,10 @@ Fabric_Client.newDefaultKeyValueStore({ path: store_path
     	verify: false
     };
     // be sure to change the http to https when the CA is running TLS enabled
-    fabric_ca_client = new Fabric_CA_Client('http://localhost:7054', tlsOptions , 'ca.patients.example.com', crypto_suite);
+    fabric_ca_client = new Fabric_CA_Client('http://localhost:9054', tlsOptions , 'ca.chemists.example.com', crypto_suite);
 
     // first check to see if the admin is already enrolled
-    return fabric_client.getUserContext('admin', true);
+    return fabric_client.getUserContext('adminChemist', true);
 }).then((user_from_store) => {
     if (user_from_store && user_from_store.isEnrolled()) {
         console.log('Successfully loaded admin from persistence');
@@ -56,8 +56,8 @@ Fabric_Client.newDefaultKeyValueStore({ path: store_path
         }).then((enrollment) => {
           console.log('Successfully enrolled admin user "admin"');
           return fabric_client.createUser(
-              {username: 'admin',
-                  mspid: 'PatientsMSP',
+              {username: 'adminChemist',
+                  mspid: 'ChemistsMSP',
                   cryptoContent: { privateKeyPEM: enrollment.key.toBytes(), signedCertPEM: enrollment.certificate }
               });
         }).then((user) => {

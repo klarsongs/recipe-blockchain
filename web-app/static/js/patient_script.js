@@ -11,7 +11,23 @@ $(document).ready(function() {
     var transactions = []; //json
     var recipeList = document.getElementById('recipe-list');
     
+    // Load data from blockchain
+    $.ajax({
+        type: "GET",
+        url: "/patient/get_recipes/",
+        timeout: 600000,
+
+        success: function (data) {
+            console.log(data);
+        },
+
+        error: function (e) {
+            alert('Error');
+        }
+    });
+    
     // TEST values - later should be load from json
+	/*
     var test_recipe = [
     	{'PrescriptionID': 1, 'RecipeID': 1, 'DoctorID': 1, 'PatientID': 1, 'Medicine': 'Rutinoscorbin', 'MedicineQuantity': '2 tabs', 'ExpirationDate': '2020-12-30', 'Note': "Take 2 tablets a day. Morning and Evening."},
     	{'PrescriptionID': 2, 'RecipeID': 1, 'DoctorID': 1, 'PatientID': 1, 'Medicine': 'Gripex', 'MedicineQuantity': '1 tab', 'ExpirationDate': '2020-12-30', 'Note': "Take once a day before going to sleep until fever stops"}
@@ -25,8 +41,9 @@ $(document).ready(function() {
     var test_transaction = {'TransactionID': 1, 'PrescriptionID': 1, 'RecipeID': 1, 'DoctorID': 1, 'PatientID': 1, 'ChemistID': 1,
     						'Medicine': 'Rutinoscorbin', 'MedicineQuantity': '2 tabs', 'MedicineValue': 4.80, 'TransactionDate': '2020-12-31', 'Closed': true};
     transactions.push(test_transaction);
-    
+    */
     // END OF TEST values
+
 
     for(var i = 0; i < recipes.length; i++) {
 

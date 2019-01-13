@@ -24,7 +24,8 @@ def invoke_chaincode(channel, chaincode, function, parameters):
     else:
         sys.stderr.write(response.stderr)
         return False
-    
+  
+# ################################################################################################################################################  
     
 # Recipe query functions
 def get_recipe(recipe_id):
@@ -39,7 +40,7 @@ def get_recipe(recipe_id):
 def get_recipe_by_patient(patient_id):
     channel = 'recipe-channel'
     chaincode = 'recipe-chaincode'
-    function = 'queryRecipeByPatient'
+    function = 'queryPatientRecipes'
     parameters = [patient_id]
     
     response = query_chaincode(channel, chaincode, function, parameters)
@@ -65,9 +66,17 @@ def change_recipe_limit(recipe_id, limit):
     success = invoke_chaincode(channel, chaincode, function, parameters)
     return success
     
-    
+# ################################################################################################################################################
     
 # Transaction query functions
+def get_transaction_by_patient(patient_id):
+    channel = 'transaction-channel'
+    chaincode = 'transaction-chaincode'
+    function = 'queryPatientTransactions'
+    parameters = [patient_id]
+    
+    response = query_chaincode(channel, chaincode, function, parameters)
+    return response
 
 
 # Transaction invoke functions
@@ -81,3 +90,4 @@ def add_transaction(idx, transaction_id, chemist_id, prescription_id, info):
     success = invoke_chaincode(channel, chaincode, function, parameters)
     return success
     
+

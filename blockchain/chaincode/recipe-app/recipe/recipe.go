@@ -8,6 +8,7 @@ import (
 	"strings"
 	//"io/ioutil"
 
+	"github.com/hyperledger/fabric/core/chaincode/lib/cid"
 	"github.com/hyperledger/fabric/core/chaincode/shim"
 	sc "github.com/hyperledger/fabric/protos/peer"
 )
@@ -94,9 +95,9 @@ func (s *SmartContract) queryRecipe(APIstub shim.ChaincodeStubInterface, args []
 
 func (s *SmartContract) initLedger(APIstub shim.ChaincodeStubInterface) sc.Response {
 	recipes := []Recipe{
-		Recipe{PrescriptionID: "1", RecipeID: "1", DoctorID: "1", PatientID: "1", Medicine: "Adderall", MedicineQuantity: "100",ExpirationDate: "03-12-2017",Note: "Take it only once a day", RecipeDate: "08-06-2017"},
-		Recipe{PrescriptionID: "2", RecipeID: "1", DoctorID: "1", PatientID: "1", Medicine: "Advil", MedicineQuantity: "20",ExpirationDate: "12-08-2018",Note: "Take it 3 times a day", RecipeDate: "12-06-2018"},
-		Recipe{PrescriptionID: "32", RecipeID: "2", DoctorID: "3", PatientID: "1", Medicine: "Morphine", MedicineQuantity: "5",ExpirationDate: "28-06-2018",Note: "Take it only when feeling pain", RecipeDate: "21-04-2017"}}
+		Recipe{PrescriptionID: "1", RecipeID: "1", DoctorID: "1", PatientID: "1", Medicine: "Rutinoscorbin", MedicineQuantity: "2 tabs",ExpirationDate: "2020-12-30",Note: "Take 2 tablets a day. Morning and Evening.", RecipeDate: "08-06-2017"},
+		Recipe{PrescriptionID: "2", RecipeID: "1", DoctorID: "1", PatientID: "1", Medicine: "Gripex", MedicineQuantity: "1 tab",ExpirationDate: "2020-12-30",Note: "Take once a day before going to sleep until fever stops", RecipeDate: "12-06-2018"},
+		Recipe{PrescriptionID: "3", RecipeID: "2", DoctorID: "1", PatientID: "1", Medicine: "Zabak", MedicineQuantity: "30 ml",ExpirationDate: "2020-12-30",Note: "Take 3 times a day.", RecipeDate: "21-04-2017"}}
 
 	i := 0
 	for i < len(recipes) {
@@ -112,6 +113,11 @@ func (s *SmartContract) initLedger(APIstub shim.ChaincodeStubInterface) sc.Respo
 
 
 func (s *SmartContract) recordRecipe(APIstub shim.ChaincodeStubInterface, args []string) sc.Response {
+	// Check if user is doctor
+	err := cid.AssertAttributeValue(APIstub, "accType", "doctor")
+	if err != nil {
+		return shim.Error(err.Error())
+	}
 
 	if len(args) != 9 {
 		return shim.Error("Incorrect number of arguments. Expecting 9")
@@ -120,8 +126,8 @@ func (s *SmartContract) recordRecipe(APIstub shim.ChaincodeStubInterface, args [
 	var recipe = Recipe{ PrescriptionID: args[1], RecipeID: args[2], DoctorID: args[3], PatientID: args[4], Medicine: args[5], MedicineQuantity: args[6], ExpirationDate: args[7], Note: args[8], RecipeDate: args[9]}
 
 	recipeAsBytes, _ := json.Marshal(recipe)
-	err := APIstub.PutState(args[0], recipeAsBytes)
-	if err != nil {
+	err2 := APIstub.PutState(args[0], recipeAsBytes)
+	if err2 != nil {
 		return shim.Error(fmt.Sprintf("Failed to record prescription packet: %s", args[0]))
 	}
 
@@ -129,7 +135,12 @@ func (s *SmartContract) recordRecipe(APIstub shim.ChaincodeStubInterface, args [
 }
 
 func (s *SmartContract) queryAllRecipe(APIstub shim.ChaincodeStubInterface) sc.Response {
-
+	// Check if user is doctor
+	err := cid.AssertAttributeValue(APIstub, "accType", "doctor")
+	if err != nil {
+		return shim.Error(err.Error())
+	}
+	
 	startKey := "0"
 	endKey := "999"
 

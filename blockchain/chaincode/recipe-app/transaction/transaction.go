@@ -6,6 +6,7 @@ import (
 	"fmt"
 	"strconv"
 
+	//"github.com/hyperledger/fabric/core/chaincode/lib/cid"
 	"github.com/hyperledger/fabric/core/chaincode/shim"
 	sc "github.com/hyperledger/fabric/protos/peer"
 )
@@ -69,7 +70,7 @@ func (s *SmartContract) queryTransaction(APIstub shim.ChaincodeStubInterface, ar
 
 func (s *SmartContract) initLedger(APIstub shim.ChaincodeStubInterface) sc.Response {
 	transaction := []Transaction{
-    Transaction{TransactionID: "1", ChemistID: "1", PrescriptionID: "1", RecipeID: "1", DoctorID: "1", PatientID: "1", Medicine: "Adderall", MedicineQuantity: "100", MedicineValue: "200", TransactionDate: "03-12-2017", Closed: "True"},
+    Transaction{TransactionID: "1", ChemistID: "1", PrescriptionID: "1", RecipeID: "1", DoctorID: "1", PatientID: "1", Medicine: "Rutinoscorbin", MedicineQuantity: "2 tabs", MedicineValue: "4.80", TransactionDate: "03-12-2017", Closed: "True"},
     Transaction{TransactionID: "2", ChemistID: "3", PrescriptionID: "2", RecipeID: "1", DoctorID: "1", PatientID: "9", Medicine: "Advil", MedicineQuantity: "20", MedicineValue: "20", TransactionDate: "04-12-2017", Closed: "True"},
     Transaction{TransactionID: "3", ChemistID: "2", PrescriptionID: "11", RecipeID: "2", DoctorID: "6", PatientID: "27", Medicine: "Morphine", MedicineQuantity: "5", MedicineValue: "65", TransactionDate: "05-12-2018", Closed: "False"},
 	}

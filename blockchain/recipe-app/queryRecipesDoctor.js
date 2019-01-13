@@ -17,7 +17,7 @@ var os = require('os');
 var fabric_client = new Fabric_Client();
 
 // setup the fabric network
-var channel = fabric_client.newChannel('transaction-channel');
+var channel = fabric_client.newChannel('recipe-channel');
 var peer = fabric_client.newPeer('grpc://localhost:7051');
 channel.addPeer(peer);
 
@@ -40,21 +40,21 @@ Fabric_Client.newDefaultKeyValueStore({ path: store_path
 	fabric_client.setCryptoSuite(crypto_suite);
 
 	// get the enrolled user from persistence, this user will sign all requests
-	return fabric_client.getUserContext('chemist1', true);
+	return fabric_client.getUserContext('doctor1', true);
 }).then((user_from_store) => {
 	if (user_from_store && user_from_store.isEnrolled()) {
-		console.log('Successfully loaded chemist1 from persistence');
+		console.log('Successfully loaded doctor1 from persistence');
 		member_user = user_from_store;
 	} else {
-		throw new Error('Failed to get chemist1.... run registerChemist.js');
+		throw new Error('Failed to get doctor1.... run registerDoctor.js');
 	}
 
 	// queryCar chaincode function - requires 1 argument, ex: args: ['CAR4'],
 	// queryAllCars chaincode function - requires no arguments , ex: args: [''],
 	const request = {
 		//targets : --- letting this default to the peers assigned to the channel
-		chaincodeId: 'transaction-chaincode',
-		fcn: 'queryAllTransaction',
+		chaincodeId: 'recipe-chaincode',
+		fcn: 'queryAllRecipe',
 		args: ['']
 	};
 

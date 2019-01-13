@@ -32,6 +32,8 @@ $(document).ready(function(){
             LastName: surnameVal,
             Role: roleVal,
             insurance: 'Unknown', //should be filled by the administrator
+			insurancestart: '2018-10-04',
+			insuranceexpired: '2021-01-01',
             birthday: birthdayVal
         }
 

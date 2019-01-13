@@ -68,7 +68,7 @@ def create_user():
     email = postedData["email"]
     birthday_datetime = datetime.strptime(postedData["birthday"], '%Y-%m-%d')
     birthday = birthday_datetime.date()
-    print(birthday)
+    #print(birthday)
 
     if '' in postedData.values():
         return jsonify({'success': False, 'message': 'All fields must be filled'})
@@ -189,6 +189,23 @@ def get_patient(id):
     return jsonify({'name': name, 'birthday': birthday, 'insurance': insurance})
 
 
+@app.route('/patient/get_recipes', methods=['GET'])
+def get_recipe():
+	id = session['id'] 
+    response = chaincodes.get_recipe_by_patient(id)
+    if response is not None:
+        return response
+    else:
+        abort(404)  # Not found
+
+@app.route('/patient/get_transactions', methods=['GET'])
+def get_recipe():
+	id = session['id'] 
+    response = chaincodes.get_transaction_by_patient(id)
+    if response is not None:
+        return response
+    else:
+        abort(404)  # Not found
 
 
 if __name__ == '__main__':

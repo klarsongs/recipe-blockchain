@@ -126,6 +126,7 @@ services:
         - ./crypto-config/peerOrganizations/patients.example.com/peers/peer0.patients.example.com/msp:/etc/hyperledger/msp/peer
         - ./crypto-config/peerOrganizations/patients.example.com/users:/etc/hyperledger/msp/users
         - ./config:/etc/hyperledger/configtx
+  
     depends_on:
       - orderer.example.com
       - couchdb0
