@@ -5,23 +5,28 @@ function myFunc(elem) {
     li.parentNode.removeChild(li);
 }
 
-$(document).ready(function(){
+function queryRecipes(patient_id, recipes) {
+    $.ajax({
+        type: "GET",
+        url: "/doctor/get_patient_recipes/" + patient_id,
+        timeout: 600000,
 
-    //recipes
+        success: function (data) {
+        	console.log(data);
+            var queried_recipes = JSON.parse(data);
+		    recipes.push.apply(recipes, queried_recipes);
+            //console.log(recipes);
+            updatePatientRecipes(recipes);
+        },
 
-    var recipes = [];
+        error: function (e) {
+            alert('Error');
+        }
+    });
+}
 
-    var test_recipe = [
-    	{'PrescriptionID': 1, 'RecipeID': 1, 'DoctorID': 1, 'PatientID': 1, 'Medicine': 'Rutinoscorbin', 'MedicineQuantity': '2 tabs', 'ExpirationDate': '2020-12-30', 'Note': "Take 2 tablets a day. Morning and Evening."},
-    	{'PrescriptionID': 2, 'RecipeID': 1, 'DoctorID': 1, 'PatientID': 1, 'Medicine': 'Gripex', 'MedicineQuantity': '1 tab', 'ExpirationDate': '2020-12-30', 'Note': "Take once a day before going to sleep until fever stops"}
-    ];
-    recipes.push(test_recipe);
-    var test_recipe2 = [
-    	{'PrescriptionID': 3, 'RecipeID': 2, 'DoctorID': 1, 'PatientID': 1, 'Medicine': 'Zabak', 'MedicineQuantity': '30 ml', 'ExpirationDate': '2010-12-30', 'Note': "Take 3 times a day."}
-    ];
-    recipes.push(test_recipe2);
-
-    var historyList = document.getElementById('patients_history_list');
+function updatePatientRecipes(recipes) {
+	var historyList = document.getElementById('patients_history_list');
     for (var i = 0; i < recipes.length; i++) {
         var recipe = recipes[i];
 
@@ -55,11 +60,35 @@ $(document).ready(function(){
 
         historyList.appendChild(tmpl);
     }
+}
+
+$(document).ready(function(){
+
+    //recipes
+
+    var recipes = [];
+
+	/*
+    var test_recipe = [
+    	{'PrescriptionID': 1, 'RecipeID': 1, 'DoctorID': 1, 'PatientID': 1, 'Medicine': 'Rutinoscorbin', 'MedicineQuantity': '2 tabs', 'ExpirationDate': '2020-12-30', 'Note': "Take 2 tablets a day. Morning and Evening."},
+    	{'PrescriptionID': 2, 'RecipeID': 1, 'DoctorID': 1, 'PatientID': 1, 'Medicine': 'Gripex', 'MedicineQuantity': '1 tab', 'ExpirationDate': '2020-12-30', 'Note': "Take once a day before going to sleep until fever stops"}
+    ];
+    recipes.push(test_recipe);
+    var test_recipe2 = [
+    	{'PrescriptionID': 3, 'RecipeID': 2, 'DoctorID': 1, 'PatientID': 1, 'Medicine': 'Zabak', 'MedicineQuantity': '30 ml', 'ExpirationDate': '2010-12-30', 'Note': "Take 3 times a day."}
+    ];
+    recipes.push(test_recipe2);
+    */
 
 
     $('#patient_search_btn').click(function(event) { 
 
         var id = $('.new_visit .patient_ID').val();
+        
+        // Clear recipes
+        recipes = [];
+        var historyList = document.getElementById('patients_history_list');
+        historyList.innerHTML = '';
 
         $.ajax({
             type: "GET",
@@ -79,6 +108,8 @@ $(document).ready(function(){
                 name_element.innerHTML = name;
                 birthday_element.innerHTML = birthday;
                 insurance_element.innerHTML = insurance;
+                
+                queryRecipes(id, recipes);
 
                 $('#add_recipe_btn').prop("disabled", false);
             },
@@ -184,8 +215,13 @@ $(document).ready(function(){
         var patientID_val = $('.add_recipe .patient_ID').val();
         var medicines_vals = document.getElementById("medicine-list").querySelectorAll("#recipe-elements-medicine-val");
         var quantity_vals = document.getElementById("medicine-list").querySelectorAll('#recipe-elements-quantity-val');
-        var note_vals = document.getElementById("medicine-list").querySelectorAll('#recipe-elements-notes-val');
+        var note_vals = document.getElementById("medicine-list").querySelectorAll('#recipe-elements-note-val');
         var expiration_val = $('.add_recipe .expiration_date').val()
+
+		var prescriptions = [];
+		
+		// Disable submit button (to prevent multiplication of requests)
+        $('#add_recipe_btn').prop("disabled", true);
 
         var i;
         for(i = 0; i < medicines_vals.length; i++ ) {
@@ -193,7 +229,7 @@ $(document).ready(function(){
 
             var medicine_val = medicines_vals[i].innerHTML;
             var quantity_val = quantity_vals[i].innerHTML;
-            var note_vals = quantity_vals[i].innerHTML;
+            var note_val = note_vals[i].innerHTML;
             
             var date = new Date();
             var date_val = new Date(date.getTime() - (date.getTimezoneOffset() * 60000)).toJSON().slice(0,19)
@@ -208,28 +244,31 @@ $(document).ready(function(){
                 "Date": date_val
             }
 
-            // Disable submit button (to prevent multiplication of requests)
-            $('#add_recipe_btn').prop("disabled", true);
-
-            $.ajax({
-                type: "POST",
-                url: "/doctor/add_recipe",
-                timeout: 600000,
-                data: JSON.stringify(obj),
-                contentType: 'application/json',
-
-                success: function (data) {
-                    alert('Recipe added');
-                    $('#add_recipe_btn').prop("disabled", false);
-                },
-
-                error: function (e) {
-                    $('#add_recipe_btn').prop("disabled", false);
-                    alert('Error');
-                }
-            });
+            prescriptions.push(obj);
 
         }
+
+        $.ajax({
+            type: "POST",
+            url: "/doctor/add_recipe",
+            timeout: 600000,
+            data: JSON.stringify(prescriptions),
+            contentType: 'application/json',
+
+            success: function (data) {
+                alert('Recipe added');
+                // Clear form
+                const myList = document.getElementById('medicine-list');
+                myList.innerHTML = '';
+                
+                $('#add_recipe_btn').prop("disabled", false);
+            },
+
+            error: function (e) {
+                $('#add_recipe_btn').prop("disabled", false);
+                alert('Error');
+            }
+        });
 
         return false;
     });

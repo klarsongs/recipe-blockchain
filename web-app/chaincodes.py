@@ -1,4 +1,5 @@
 import os
+import sys
 from Naked.toolshed.shell import execute_js, muterun_js
     
 def list2str(parameters):
@@ -19,6 +20,7 @@ def invoke_chaincode(user, channel, chaincode, function, parameters):
     parameters = list2str(parameters)
     args = user + ' ' + channel + ' ' + chaincode + ' ' + function + ' ' + parameters
     response = muterun_js('node-connectors/invoke.js', arguments=args)
+    print('Exitted with: ' + str(response.exitcode))
     if response.exitcode == 0:
         return True
     else:
@@ -49,13 +51,12 @@ def get_recipe_by_patient(patient_id):
     return response
     
 # Recipe invoke functions
-def add_recipe(idx, recipe_id, doctor_id, patient_id, limit):
-    user = 'patient'
+def add_recipe(idx, recipe_id, doctor_id, patient_id, medicine, medicineQuantity, expirationDate, note, recipeDate):
+    user = 'doctor'
     channel = 'recipe-channel'
     chaincode = 'recipe-chaincode'
     function = 'recordRecipe'
-    parameters = [idx, recipe_id, doctor_id, patient_id, limit]
-    # BTW - Why have recipe_id, when the key is already id of recipe? or there could be many entries forming 1 recipe?
+    parameters = [idx, recipe_id, doctor_id, patient_id, medicine, medicineQuantity, expirationDate, note, recipeDate]
     
     success = invoke_chaincode(user, channel, chaincode, function, parameters)
     return success

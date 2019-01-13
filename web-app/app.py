@@ -1,4 +1,4 @@
-from flask import Flask, jsonify, request, make_response, session, render_template, url_for, redirect
+from flask import Flask, jsonify, request, make_response, session, render_template, url_for, redirect, abort
 from flask_sqlalchemy import SQLAlchemy
 from werkzeug.security import generate_password_hash, check_password_hash
 from datetime import datetime
@@ -8,6 +8,11 @@ import json
 import os
 
 import chaincodes
+
+# For id auto-numbering
+TRANSACTION_ID = 10
+RECIPE_ID = 10
+PRESCRIPTION_ID = 10
 
 app = Flask(__name__)
 basedir = os.path.abspath(os.path.dirname(__file__))
@@ -35,11 +40,6 @@ class User(db.Model):
 
 db.create_all()
 db.session.commit()
-
-
-# For id auto-numbering
-TRANSACTION_ID = 10
-RECIPE_ID = 10
 
 
 @app.route('/isloggedin', methods=['GET'])
@@ -155,22 +155,47 @@ def chemist_add_transaction():
 
 @app.route('/doctor/add_recipe', methods=['POST'])
 def doctor_add_recipe():
+    global RECIPE_ID
+    global PRESCRIPTION_ID
+
+    print('Adding prescriptions')
     data = request.get_json()
+    #print(data)
      # TODO: Check if data is valid?
 
-    global RECIPE_ID
     recipe_id = RECIPE_ID
-    doctor_id = int(data['DoctorID'])
-    patient_id = int(data['PatientID'])
-    limit = 1  # TODO: add limit field in frontend?
-    # TODO: Add description in chaincode?
+    prescription_id = PRESCRIPTION_ID
+    
+    # First increase id, if error then later decrease
+    RECIPE_ID += 1
+    
+    # Read prescriptions in loop, add them as single recipe
+    for i, prescription in enumerate(data):
+        #print(prescription)
+    
+        doctor_id = int(prescription['DoctorID'])
+        patient_id = int(prescription['PatientID'])
+        medicine = prescription['Medicine']
+        medicineQuantity = prescription['Quantity']
+        expirationDate = prescription['ExpirationDate']
+        note = prescription['Note']
+        recipeDate = prescription['Date']
 
-    success = chaincodes.add_recipe(recipe_id, recipe_id, doctor_id, patient_id, limit)
-    if success:
-        RECIPE_ID += 1
-        return "Success"  # TODO: Should return id of new recipe?
-    else:
-        abort(400)  # Bad request
+        success = chaincodes.add_recipe(prescription_id, recipe_id, doctor_id, patient_id, medicine, medicineQuantity, expirationDate, note, recipeDate)
+        #print(success)
+
+        if success:
+            PRESCRIPTION_ID += 1
+            recipe_id = RECIPE_ID - 1 # get old recipe value
+            prescription_id = PRESCRIPTION_ID
+        else:
+            if i == 0:
+                RECIPE_ID -= 1
+            abort(400)  # Bad request
+        
+    return jsonify({'success': True, 'message': 'Added prescritpions.'})
+        
+        
 
 @app.route('/chemist/get_recipe/<id>', methods=['GET'])
 def chemist_get_recipe(id):
@@ -183,6 +208,8 @@ def chemist_get_recipe(id):
 @app.route('/doctor/get_patient/<id>', methods=['GET'])
 def doctor_get_patient(id):
     patient = User.query.filter_by(id=id).first()
+    if patient is None or patient.Role != 'Patient':
+    	abort(404)  # Not found
     name = patient.FirstName + " " + patient.LastName
     birthday = patient.birthday
     insurance = patient.insurance
@@ -202,6 +229,14 @@ def patient_get_recipes():
 def patient_get_transactions():
 	id = session['id'] 
 	response = chaincodes.get_transaction_by_patient(id)
+	if response is not None:
+		return response
+	else:
+		abort(404)  # Not found
+		
+@app.route('/doctor/get_patient_recipes/<id>', methods=['GET'])
+def doctor_get_recipes(id):
+	response = chaincodes.get_recipe_by_patient(id)
 	if response is not None:
 		return response
 	else:

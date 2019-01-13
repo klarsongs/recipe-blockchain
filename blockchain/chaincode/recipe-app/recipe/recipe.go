@@ -123,7 +123,7 @@ func (s *SmartContract) recordRecipe(APIstub shim.ChaincodeStubInterface, args [
 		return shim.Error("Incorrect number of arguments. Expecting 9")
 	}
 
-	var recipe = Recipe{ PrescriptionID: args[1], RecipeID: args[2], DoctorID: args[3], PatientID: args[4], Medicine: args[5], MedicineQuantity: args[6], ExpirationDate: args[7], Note: args[8], RecipeDate: args[9]}
+	var recipe = Recipe{ PrescriptionID: args[0], RecipeID: args[1], DoctorID: args[2], PatientID: args[3], Medicine: args[4], MedicineQuantity: args[5], ExpirationDate: args[6], Note: args[7], RecipeDate: args[8]}
 
 	recipeAsBytes, _ := json.Marshal(recipe)
 	err2 := APIstub.PutState(args[0], recipeAsBytes)
@@ -229,7 +229,7 @@ func (s *SmartContract) queryPatientRecipes(APIstub shim.ChaincodeStubInterface,
 		buffer.WriteString("[")
 		buffer.WriteString(strings.Join(recipe, ","))
 		buffer.WriteString("]")
-		if i < len(recipe) - 1 {
+		if i < len(recipes) - 1 {
 			buffer.WriteString(",")
 		}
 		i++;
@@ -305,7 +305,7 @@ func (s *SmartContract) queryPatientOpenRecipes(APIstub shim.ChaincodeStubInterf
 		buffer.WriteString("[")
 		buffer.WriteString(strings.Join(recipe, ","))
 		buffer.WriteString("]")
-		if i < len(recipe) - 1 {
+		if i < len(recipes) - 1 {
 			buffer.WriteString(",")
 		}
 		i++;

@@ -56,7 +56,7 @@ Fabric_Client.newDefaultKeyValueStore({ path: store_path
 		console.log('Successfully loaded ' + user + '1 from persistence');
 		member_user = user_from_store;
 	} else {
-		throw new Error('Failed to get ' + user + '1.... run register' user + '.js');
+		throw new Error('Failed to get ' + user + '1.... run register' + user + '.js');
 	}
 
 	// get a transaction id object based on the current user assigned to fabric client
@@ -165,4 +165,5 @@ Fabric_Client.newDefaultKeyValueStore({ path: store_path
 	}
 }).catch((err) => {
 	console.error('Failed to invoke successfully :: ' + err);
+	return process.exit(1);
 });
