@@ -4,6 +4,66 @@ function myFunc(elem) {
     li.parentNode.removeChild(li);
 }
 
+function queryRecipes(patient_id, recipes) {
+    $.ajax({
+        type: "GET",
+        url: "/chemist/get_recipes/" + patient_id,
+        timeout: 600000,
+
+        success: function (data) {
+        	//console.log(data);
+            var queried_recipes = JSON.parse(data);
+            recipes = [];
+            var historyList = document.getElementById('pending-recipes');
+            historyList.innerHTML = '';
+		    recipes.push.apply(recipes, queried_recipes);
+            //console.log(recipes);
+            updateRecipes(recipes);
+            $('#get_recipe_btn').prop("disabled", true);
+        },
+
+        error: function (e) {
+            alert('Error');
+            $('#get_recipe_btn').prop("disabled", true);
+        }
+    });
+}
+
+function updateRecipes(recipes) {
+    var historyList = document.getElementById('pending-recipes');
+        for (var i = 0; i < recipes.length; i++) {
+            var recipe = recipes[i];
+
+            // using the template from html, clone it
+            var tmpl = document.getElementById('patients_history_li_tmpl').cloneNode(true);
+
+            tmpl.querySelector('.recipe_info').querySelector('.recipe_id').innerText = recipe[0].RecipeID;
+            tmpl.querySelector('.recipe_info').querySelector('.doctor_id').innerText = recipe[0].DoctorID;
+            tmpl.querySelector('.recipe_info').querySelector('.recipe_date').innerText = recipe[0].ExpirationDate;
+
+            var medicineList = tmpl.querySelector('.medicine-list');
+            
+            //console.log(recipe);
+
+            for(var j = 0; j < recipe.length; j++) {
+                var prescription = recipe[j];
+                //console.log(prescription);
+
+                // use template for medicine-list
+                var tmpl_medicine_list = document.getElementById('medicine-list-tmpl').cloneNode(true);
+
+                tmpl_medicine_list.querySelector('.medicine-name').innerText = prescription.Medicine;
+                tmpl_medicine_list.querySelector('.medicine-quantity').innerText = prescription.MedicineQuantity;
+
+                tmpl_medicine_list.querySelector('.medicine-name').innerHTML += ',';
+
+                medicineList.appendChild(tmpl_medicine_list);
+            }
+
+            historyList.appendChild(tmpl);
+        }
+}
+
 $(document).ready(function(){
 
     $("#copy_recipe").click( function(event) {
@@ -118,6 +178,7 @@ $(document).ready(function(){
 
         var recipes = [];
 
+	/*
         var test_recipe = [
             {'PrescriptionID': 1, 'RecipeID': 1, 'DoctorID': 1, 'PatientID': 1, 'Medicine': 'Rutinoscorbin', 'MedicineQuantity': '2 tabs', 'ExpirationDate': '2020-12-30', 'Note': '', Date: '2018-07-13'},
             {'PrescriptionID': 2, 'RecipeID': 1, 'DoctorID': 1, 'PatientID': 1, 'Medicine': 'Gripex', 'MedicineQuantity': '1 tab', 'ExpirationDate': '2020-12-30', 'Note': '', Date: '2018-07-13'}
@@ -128,84 +189,17 @@ $(document).ready(function(){
 
         recipes.push(test_recipe);
         recipes.push(test_recipe2);
+	*/
 
-        var historyList = document.getElementById('pending-recipes');
-        for (var i = 0; i < recipes.length; i++) {
-            var recipe = recipes[i];
+        
 
-            // using the template from html, clone it
-            var tmpl = document.getElementById('patients_history_li_tmpl').cloneNode(true);
-
-            tmpl.querySelector('.recipe_info').querySelector('.recipe_id').innerText = recipe[0].RecipeID;
-            tmpl.querySelector('.recipe_info').querySelector('.doctor_id').innerText = recipe[0].DoctorID;
-            tmpl.querySelector('.recipe_info').querySelector('.recipe_date').innerText = recipe[0].Date;
-
-            var medicineList = tmpl.querySelector('.medicine-list');
-
-            for(var j = 0; j < recipe.length; j++) {
-                var prescription = recipe[j];
-
-                // use template for medicine-list
-                var tmpl_medicine_list = document.getElementById('medicine-list-tmpl').cloneNode(true);
-
-                tmpl_medicine_list.querySelector('.medicine-name').innerText = prescription.Medicine;
-                tmpl_medicine_list.querySelector('.medicine-quantity').innerText = prescription.MedicineQuantity;
-
-                tmpl_medicine_list.querySelector('.medicine-name').innerHTML += ',';
-
-                medicineList.appendChild(tmpl_medicine_list);
-            }
-
-            historyList.appendChild(tmpl);
-        }
-
-        //        var id = $('#patients_id').val();
-        //        // Disable submit button (to prevent multiplication of requests)
-        //        $('#get_recipe_btn').prop("disabled", true);
-        //
-        //        $.ajax({
-        //            type: "GET",
-        //            url: "/chemist/get_recipe/" + id,
-        //            timeout: 600000,
-        //
-        //            success: function (data) {
-        //                $('#get_recipe_btn').prop("disabled", false);
-        //                var div = document.getElementById('recipe');
-        //                div.style.display = 'block';
-        //                data = JSON.parse(data);  // change JSON string into object
-        //                data = data[data.length-1]  // get only the newest recipe (last entry) ????
-        //                var doc_id = data.Record.DoctorID;
-        //                var patient_id = data.Record.PatientID;
-        //                var list_of_medicines = data.Record.Medicines.Name; //should include medicine name
-        //                var list_of_quantities = data.Record.Medicines.Quantity; //should include quantity for each medicine
-        //                var expiration_date = data.Record.ExpirationDate;
-        //
-        //                $('#read-recipe-elements-doctor').val(doc_id);
-        //                $('#read-recipe-elements-expiration').val(expiration_date);
-        //
-        //                var ul = document.getElementById('read-recipe-elements-medicines');
-        //                var i;
-        //                for (i = 0; list_of_medicines.length; i++) {
-        //                    var li = document.createElement("li");
-        //                    var medicine = document.createElement("span");
-        //                    medicine.className = "medicine-name";
-        //                    var quantity = document.createElement("span");
-        //                    quantity.className = "quantity-name";
-        //                    medicine.appendChild(document.createTextNode(list_of_medicines[i]));
-        //                    quantity.appendChild(document.createTextNode(list_of_quantities[i]));
-        //                    li.appendChild(medicine);
-        //                    li.appendChild(quantity);
-        //                    ul.appendChild(li); 
-        //                }
-        //            },
-        //
-        //            error: function (e) {
-        //                $('#get_recipe_btn').prop("disabled", false);
-        //                alert('Error');
-        //            }
-        //    });
-        //
-        //    return false;
+            var id = $('#patients_id').val();
+            // Disable submit button (to prevent multiplication of requests)
+            $('#get_recipe_btn').prop("disabled", true);
+   
+            queryRecipes(id, recipes);
+        
+        return false;
     });
 
     //NEEDS REFINEMENT

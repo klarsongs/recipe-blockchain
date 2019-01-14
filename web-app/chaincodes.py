@@ -50,6 +50,16 @@ def get_recipe_by_patient(patient_id):
     response = query_chaincode(user, channel, chaincode, function, parameters)
     return response
     
+def get_open_recipe_by_patient(patient_id):
+    user = 'chemist'
+    channel = 'recipe-channel'
+    chaincode = 'recipe-chaincode'
+    function = 'queryPatientOpenRecipes'
+    parameters = [patient_id]
+    
+    response = query_chaincode(user, channel, chaincode, function, parameters)
+    return response
+    
 # Recipe invoke functions
 def add_recipe(idx, recipe_id, doctor_id, patient_id, medicine, medicineQuantity, expirationDate, note, recipeDate):
     user = 'doctor'

@@ -197,9 +197,9 @@ def doctor_add_recipe():
         
         
 
-@app.route('/chemist/get_recipe/<id>', methods=['GET'])
-def chemist_get_recipe(id):
-    response = chaincodes.get_recipe_by_patient(id)
+@app.route('/chemist/get_recipes/<id>', methods=['GET'])
+def chemist_get_recipes(id):
+    response = chaincodes.get_open_recipe_by_patient(id)
     if response is not None:
         return response
     else:

@@ -232,7 +232,7 @@ $(document).ready(function(){
             var note_val = note_vals[i].innerHTML;
             
             var date = new Date();
-            var date_val = new Date(date.getTime() - (date.getTimezoneOffset() * 60000)).toJSON().slice(0,19)
+            var date_val = new Date(date.getTime() - (date.getTimezoneOffset() * 60000)).toJSON().slice(0,10)
 
             const obj = {
                 "DoctorID": doctorID_val,
