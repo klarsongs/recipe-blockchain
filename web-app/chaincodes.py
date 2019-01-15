@@ -73,7 +73,7 @@ def add_recipe(idx, recipe_id, doctor_id, patient_id, medicine, medicineQuantity
     return success
 
 def change_recipe_limit(recipe_id, limit):
-    user = 'patient'
+    user = 'doctor'
     channel = 'recipe-channel'
     chaincode = 'recipe-chaincode'
     function = 'changeRecipeLimit'
@@ -108,3 +108,23 @@ def add_transaction(transaction_id, chemist_id, prescription_id, recipe_id, doct
     return success
     
 
+################ For statistics ##################
+def get_all_transactions():
+    user = 'chemist'
+    channel = 'transaction-channel'
+    chaincode = 'transaction-chaincode'
+    function = 'queryAllTransaction'
+    parameters = []
+    
+    response = query_chaincode(user, channel, chaincode, function, parameters)
+    return response
+    
+def get_all_recipes():
+    user = 'doctor'
+    channel = 'recipe-channel'
+    chaincode = 'recipe-chaincode'
+    function = 'queryAllRecipe'
+    parameters = []
+    
+    response = query_chaincode(user, channel, chaincode, function, parameters)
+    return response

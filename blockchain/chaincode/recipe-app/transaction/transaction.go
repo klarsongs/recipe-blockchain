@@ -130,19 +130,13 @@ func (s *SmartContract) queryAllTransaction(APIstub shim.ChaincodeStubInterface)
 		if bArrayMemberAlreadyWritten == true {
 			buffer.WriteString(",")
 		}
-		buffer.WriteString("{\"Key\":")
-		buffer.WriteString("\"")
-		buffer.WriteString(queryResponse.Key)
-		buffer.WriteString("\"")
 
-		buffer.WriteString(", \"Record\":")
 		buffer.WriteString(string(queryResponse.Value))
-		buffer.WriteString("}")
 		bArrayMemberAlreadyWritten = true
 	}
 	buffer.WriteString("]")
 
-	fmt.Printf("- queryAllTransaction:\n%s\n", buffer.String())
+	//fmt.Printf("- queryAllTransaction:\n%s\n", buffer.String())
 
 	return shim.Success(buffer.Bytes())
 }

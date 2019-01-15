@@ -260,6 +260,91 @@ def doctor_get_recipes(id):
 		return response
 	else:
 		abort(404)  # Not found
+		
+		
+# Statistics:
+@app.route('/stats', methods=['GET'])
+def get_statistics():
+    response = chaincodes.get_all_transactions()
+    if response is None:
+        abort(404)  # Not found 	
+    transactions = json.loads(response)
+    
+    response = chaincodes.get_all_recipes()
+    if response is None:
+        abort(404)  # Not found	    
+    recipes = json.loads(response)
+	    
+    stats = {}
+    
+    doctor_prescriptions = {}
+    doctor_visits = {}; processed_recipes = {}
+    
+    for prescription in recipes:
+
+        # Count of prescriptions per doctor
+        if prescription['DoctorID'] not in doctor_prescriptions.keys():
+            doctor_prescriptions[prescription['DoctorID']] = 1
+        else: 
+            doctor_prescriptions[prescription['DoctorID']] += 1
+            
+        # Count of patients (recipes) per doctor
+        if prescription['DoctorID'] not in doctor_visits.keys():
+            doctor_visits[prescription['DoctorID']] = 1
+            processed_recipes[prescription['DoctorID']] = [prescription['RecipeID']]
+        elif prescription['RecipeID'] not in processed_recipes[prescription['DoctorID']]:
+            doctor_visits[prescription['DoctorID']] += 1
+            processed_recipes[prescription['DoctorID']].append(prescription['RecipeID'])
+
+
+    chemist_transactions = {}
+    medicine_popularity = {}
+    chemist_income = {}
+    
+    for transaction in transactions:
+    
+        # Count of transactions per chemist
+        if transaction['ChemistID'] not in chemist_transactions.keys():
+            chemist_transactions[transaction['ChemistID']] = 1
+        else: 
+            chemist_transactions[transaction['ChemistID']] += 1
+            
+        # Popularity ranking of medicines
+        if transaction['Medicine'] not in medicine_popularity.keys():
+            medicine_popularity[transaction['Medicine']] = 1
+        else: 
+            medicine_popularity[transaction['Medicine']] += 1
+            
+        # Income per chemist (sum of values)
+        if transaction['ChemistID'] not in chemist_income.keys():
+            chemist_income[transaction['ChemistID']] = float(transaction['MedicineValue'])
+        else: 
+            chemist_income[transaction['ChemistID']] += float(transaction['MedicineValue'])
+            
+            
+    # Final touches
+    sum_val = sum([val for val in doctor_prescriptions.values()])
+    doctor_prescriptions['all'] = sum_val
+    
+    sum_val = sum([val for val in doctor_visits.values()])
+    doctor_visits['all'] = sum_val
+    
+    sum_val = sum([val for val in chemist_transactions.values()])
+    chemist_transactions['all'] = sum_val
+    
+    sum_val = sum([val for val in chemist_income.values()])
+    chemist_income['all'] = sum_val
+    
+    medicine_ranking = [{'medicine': k, 'popularity': v} for k, v in medicine_popularity.items()]
+    medicine_ranking.sort(key=lambda row: row['popularity'])
+    
+    stats['prescriptions_per_doctor'] = doctor_prescriptions
+    stats['visits_per_doctor'] = doctor_visits
+    stats['transactions_per_chemist'] = chemist_transactions
+    stats['income_per_chemist'] = chemist_income
+    stats['medicine_popularity'] = medicine_ranking
+        
+    return jsonify(stats)
 
 
 if __name__ == '__main__':
