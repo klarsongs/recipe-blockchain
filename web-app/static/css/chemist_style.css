@@ -20,11 +20,19 @@
 }
 
 input#inputAdd_text {
-    width: 66%;
+    width: 54%;
 }
 
 input#medicine-quantity {
-    width: 27%;
+    width: 12%;
+}
+
+input#medicine-transaction-id {
+    width: 15%;
+}
+
+input#medicine-value {
+    width: 12%;
 }
 
 #add_medicine_btn {
@@ -39,4 +47,9 @@ input#medicine-quantity {
 
 .recipe {
     margin-bottom: 10px;
+}
+
+.medicine-prescription-id:after {
+	content: " - ";
+	display: inline-block;
 }

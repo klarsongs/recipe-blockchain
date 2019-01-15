@@ -137,21 +137,40 @@ def index():
 
 @app.route('/chemist/add_transaction', methods=['POST'])
 def chemist_add_transaction():
+    global TRANSACTION_ID
+    
+    print('Adding transactions')
     data = request.get_json()
+    #print(data)
     # TODO: Check if data is valid?
 
-    global TRANSACTION_ID
     transaction_id = TRANSACTION_ID
-    chemist_id = int(data['ChemistID'])
-    prescription_id = 1  # TODO: need it being passed from frontend
-    info = str(data['Description'])
+    
+    # Read transactions in a loop
+    for i, transaction in enumerate(data):
+        #print(transaction)
+        
+        chemist_id = int(transaction['ChemistID'])
+        prescription_id = int(transaction['PrescriptionID'])
+        recipe_id = int(transaction['RecipeID'])
+        doctor_id = int(transaction['DoctorID'])
+        patient_id = int(transaction['PatientID'])
+        medicine = transaction['Medicine']
+        quantity = transaction['Quantity']
+        value = transaction['Value']
+        date = transaction['Date']
+        is_closed = transaction['Status']
+        #continue
 
-    success = chaincodes.add_transaction(transaction_id, transaction_id, chemist_id, prescription_id, info)
-    if success:
-        TRANSACTION_ID += 1
-        return "Success"  # TODO: Should return id of new recipe?
-    else:
-        abort(400)  # Bad request
+        success = chaincodes.add_transaction(transaction_id, chemist_id, prescription_id, recipe_id, doctor_id, patient_id, medicine, quantity, value, date, is_closed)
+        if success:
+            TRANSACTION_ID += 1
+            transaction_id = TRANSACTION_ID
+            return "Success"  # TODO: Should return id of new recipe?
+        else:
+            abort(400)  # Bad request
+            
+    return jsonify({'success': True, 'message': 'Added transactions.'})
 
 @app.route('/doctor/add_recipe', methods=['POST'])
 def doctor_add_recipe():

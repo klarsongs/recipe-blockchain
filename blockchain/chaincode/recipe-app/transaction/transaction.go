@@ -94,7 +94,7 @@ func (s *SmartContract) recordTransaction(APIstub shim.ChaincodeStubInterface, a
 		return shim.Error("Incorrect number of arguments. Expecting 11")
 	}
 
-	var transaction = Transaction{ TransactionID: args[1], ChemistID: args[2], PrescriptionID: args[3], DoctorID: args[4], PatientID: args[6], Medicine: args[7], MedicineQuantity: args[8], MedicineValue: args[9], TransactionDate: args[10], Closed: args[11]}
+	var transaction = Transaction{ TransactionID: args[0], ChemistID: args[1], PrescriptionID: args[2], RecipeID: args[3], DoctorID: args[4], PatientID: args[5], Medicine: args[6], MedicineQuantity: args[7], MedicineValue: args[8], TransactionDate: args[9], Closed: args[10]}
 
 	transactionAsBytes, _ := json.Marshal(transaction)
 	err := APIstub.PutState(args[0], transactionAsBytes)

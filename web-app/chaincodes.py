@@ -3,7 +3,7 @@ import sys
 from Naked.toolshed.shell import execute_js, muterun_js
     
 def list2str(parameters):
-    return " ".join(str(param) for param in parameters)   
+    return " ".join('"' + str(param) + '"' for param in parameters)   
     
 # "Backend" functions to query and invoke any chaincode (using NodeJS called through Naked)
 def query_chaincode(user, channel, chaincode, function, parameters):
@@ -19,6 +19,7 @@ def query_chaincode(user, channel, chaincode, function, parameters):
 def invoke_chaincode(user, channel, chaincode, function, parameters):
     parameters = list2str(parameters)
     args = user + ' ' + channel + ' ' + chaincode + ' ' + function + ' ' + parameters
+    print(args)
     response = muterun_js('node-connectors/invoke.js', arguments=args)
     print('Exitted with: ' + str(response.exitcode))
     if response.exitcode == 0:
@@ -96,13 +97,12 @@ def get_transaction_by_patient(patient_id):
 
 
 # Transaction invoke functions
-def add_transaction(idx, transaction_id, chemist_id, prescription_id, info):
-    user = 'patient'
+def add_transaction(transaction_id, chemist_id, prescription_id, recipe_id, doctor_id, patient_id, medicine, quantity, value, date, is_closed):
+    user = 'chemist'
     channel = 'transaction-channel'
     chaincode = 'transaction-chaincode'
     function = 'recordTransaction'
-    parameters = [idx, transaction_id, chemist_id, prescription_id, info]
-    # BTW - Why have transaction_id, when the key is already id of transaction? or there could be many entries forming 1 transaction?
+    parameters = [transaction_id, chemist_id, prescription_id, recipe_id, doctor_id, patient_id, medicine, quantity, value, date, is_closed, 'spam']
     
     success = invoke_chaincode(user, channel, chaincode, function, parameters)
     return success
