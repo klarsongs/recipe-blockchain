@@ -302,6 +302,9 @@ $(document).ready(function(){
             success: function (data) {
                 alert('Transactions added');
                 $('#add_transaction_btn').prop("disabled", false);
+                queryRecipes(patientID_val, recipes);
+                $('#add_transaction_form')[0].reset();
+                $('#medicine-list').html('');
             },
 
             error: function (e) {
@@ -309,8 +312,6 @@ $(document).ready(function(){
                 alert('Error');
             }
         });
-        
-        queryRecipes(patientID_val, recipes);
 
         return false;
     });

@@ -282,17 +282,20 @@ func (s *SmartContract) queryPatientOpenRecipes(APIstub shim.ChaincodeStubInterf
 		json.Unmarshal(recipeAsBytes, &recipe)
 
 		// Here can modify or check data
+		skip := false
 		if recipe.PatientID != string(args[0]) {
-			continue
+			skip = true
 		}
 		
 		for _, tx := range transactions {
 			if tx.PrescriptionID == recipe.PrescriptionID && tx.Closed == "True" {
-				continue
+				skip = true
+				break
 			}
 		}
-
-		recipes[recipe.RecipeID] = append(recipes[recipe.RecipeID], string(recipeAsBytes))
+		if !skip {
+			recipes[recipe.RecipeID] = append(recipes[recipe.RecipeID], string(recipeAsBytes))
+		}
 	}
 	
 	// here fill json

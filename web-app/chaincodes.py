@@ -102,7 +102,7 @@ def add_transaction(transaction_id, chemist_id, prescription_id, recipe_id, doct
     channel = 'transaction-channel'
     chaincode = 'transaction-chaincode'
     function = 'recordTransaction'
-    parameters = [transaction_id, chemist_id, prescription_id, recipe_id, doctor_id, patient_id, medicine, quantity, value, date, is_closed, 'spam']
+    parameters = [transaction_id, chemist_id, prescription_id, recipe_id, doctor_id, patient_id, medicine, quantity, value, date, is_closed]
     
     success = invoke_chaincode(user, channel, chaincode, function, parameters)
     return success
