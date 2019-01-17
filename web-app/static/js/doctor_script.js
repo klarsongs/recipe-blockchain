@@ -176,6 +176,11 @@ $(document).ready(function(){
 
     buttonAddText.addEventListener('click', () => {
 
+		if (myList.childElementCount >= 5) {
+			alert('Limit of prescriptions per recipe exceeded. Nothing was added, please create separate recipe later.');
+			return false;
+		}
+
         let myNewValue = inputValue_text.value;
         let myNewQuantity = quantity.value; 
         let myNewNote = note.value;

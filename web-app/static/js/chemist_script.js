@@ -127,19 +127,19 @@ $(document).ready(function(){
 
     /////
     var date = new Date();
-    $('input[type=datetime-local]').val(new Date(date.getTime() - (date.getTimezoneOffset() * 60000)).toJSON().slice(0,19));
+    $('input[type=datetime-local]').val(new Date(date.getTime() - (date.getTimezoneOffset() * 60000)).toJSON().slice(0,10));
     /////
 
-    //const btnAddVl = document.getElementById('add_medicine_trans_btn');
-    //const buttonAddText = document.getElementById('add_medicine_btn');
-    //const inputValue = document.getElementById('inputAdd');
+    const btnAddVl = document.getElementById('add_medicine_trans_btn');
+    const buttonAddText = document.getElementById('add_medicine_btn');
+    const inputValue = document.getElementById('inputAdd');
     const myList = document.getElementById('medicine-list');
-    //const inputValue_text = document.getElementById('inputAdd_text');
-    //const quantity = document.getElementById('medicine-quantity');
+    const inputValue_text = document.getElementById('inputAdd_text');
+    const quantity = document.getElementById('medicine-quantity');
     const expiration_div = document.getElementById('empty');
 
     // Show Input
-    /*
+    
     if(btnAddVl) {
         btnAddVl.addEventListener('click', () => {
             if(inputValue.style.display == 'block') {
@@ -153,10 +153,10 @@ $(document).ready(function(){
             }
         })
     }
-    */
+    
 
     //STOP WEBSITE FROM REALOADING ACCIDENTALLY//
-    /*
+    
     $("#add_medicine_btn").click( function(event) {
         event.preventDefault();
     });
@@ -164,27 +164,31 @@ $(document).ready(function(){
     $("#add_medicine_trans_btn").click( function(event) {
         event.preventDefault();
     });
-    */
+    
     ////////////////////////////////////////////
 
-    /*
+    
     buttonAddText.addEventListener('click', () => {
 
-        let myNewValue = inputValue_text.value;
-        let myNewQuantity = quantity.value; 
+        let medName = inputValue_text.value;
+        let medQuantity = quantity.value; 
 
         //Check if input have value or is empty
-        if(myNewValue == "" || myNewQuantity == ""){
+        if(medName == "" || medQuantity == ""){
             alert("Medicine name and quantity must be entered");
         }else{
             // Here will Create Li tag and add it value from input
             let newLi = document.createElement('li');
             let elementNew = myList.appendChild(newLi);
 
-            elementNew.innerHTML = "<span class='recipe-elements' id='recipe-elements-medicine'><span class='recipe-elements-label'> Medicine: </span>" + "<span id='recipe-elements-medicine-val'>" + myNewValue + "</span></span>";
+            elementNew.innerHTML = "<span class='recipe-elements' id='recipe-elements-prescr'><span class='recipe-elements-label'> Prescription ID: </span>" + "<input type='number' class='recipe-elements-prescr-val' value='' readonly /></span>";
+                        
+            elementNew.innerHTML += "<span class='recipe-elements' id='recipe-elements-medicine'><span class='recipe-elements-label'> Medicine: </span>" + "<input type='text' class='recipe-elements-medicine-val' value='" + medName + "'/></span>";
 
-            elementNew.innerHTML += "<span class='recipe-elements' id='recipe-elements-quantity'><span class='recipe-elements-label'> Quantity: </span>" + "<span id='recipe-elements-quantity-val'>" + myNewQuantity + "</span></span>";
+            elementNew.innerHTML += "<span class='recipe-elements' id='recipe-elements-quantity'><span class='recipe-elements-label'> Quantity: </span>" + "<input type='text' class='recipe-elements-quantity-val' value='" + medQuantity + "'/></span>";
 
+            elementNew.innerHTML += "<span class='recipe-elements' id='recipe-elements-value'><span class='recipe-elements-label'> Value: </span>" + "<input type='number' step='0.01' placeholder='Value' class='recipe-elements-value-val' /></span>";
+            
             elementNew.innerHTML += "<span onclick='myFunc(this)' class='delete fa fa-trash-alt'></span>";
 
             inputValue_text.value = "";
@@ -192,7 +196,7 @@ $(document).ready(function(){
 
         }
     });
-    */
+    
 
     ////////TEST JSON - remove later /////////
     //    var data2 = {Key:"1", Record:{DoctorID:"1",Info:"",Limit:"1",PatientID:"1"}};
@@ -258,7 +262,7 @@ $(document).ready(function(){
         var value_val = $('#add_transaction .value').val();
         */
         
-        var closed_val = $('#add_transaction .status').is(":checked") ? "True" : "False";
+        //var closed_val = $('#add_transaction .status').is(":checked") ? "True" : "False";
 
         var date = new Date();
         var date_val = new Date(date.getTime() - (date.getTimezoneOffset() * 60000)).toJSON().slice(0,10)
@@ -267,10 +271,12 @@ $(document).ready(function(){
 
         var i;
         for(i=0; i < prescrIDs.length; i++) {
+			/*
             var isClosed = "False";
             if (i == prescrIDs.length - 1 && closed_val == "True") {
                 isClosed = "True";
             }
+            */
         
             // Prepare object
             const obj = {
@@ -282,8 +288,8 @@ $(document).ready(function(){
                 "Medicine": medicines[i],
                 "Quantity": quantities[i],    
                 "Value": values[i],
-                "Date": date_val,
-                "Status": isClosed
+                "Date": date_val
+                //"Status": isClosed
             }
             transactions.push(obj);
         }

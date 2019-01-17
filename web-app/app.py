@@ -151,22 +151,34 @@ def chemist_add_transaction():
         #print(transaction)
         
         chemist_id = int(transaction['ChemistID'])
-        prescription_id = int(transaction['PrescriptionID'])
-        recipe_id = int(transaction['RecipeID'])
-        doctor_id = int(transaction['DoctorID'])
+        if transaction['PrescriptionID'] == '':
+            prescription_id = ''
+            recipe_id = ''
+            doctor_id = ''
+        else:
+            prescription_id = int(transaction['PrescriptionID'])
+            recipe_id = int(transaction['RecipeID'])
+            doctor_id = int(transaction['DoctorID'])
+            
         patient_id = int(transaction['PatientID'])
         medicine = transaction['Medicine']
         quantity = transaction['Quantity']
         value = transaction['Value']
         date = transaction['Date']
-        is_closed = transaction['Status']
+        #is_closed = transaction['Status']
         #continue
 
-        success = chaincodes.add_transaction(transaction_id, chemist_id, prescription_id, recipe_id, doctor_id, patient_id, medicine, quantity, value, date, is_closed)
+        success = chaincodes.add_transaction(transaction_id, chemist_id, prescription_id, recipe_id, doctor_id, patient_id, medicine, quantity, value, date)
         if success:
             TRANSACTION_ID += 1
             transaction_id = TRANSACTION_ID
-            return "Success"  # TODO: Should return id of new recipe?
+            
+            # Mark as closed in recipe
+            if prescription_id != '':
+                success = chaincodes.close_prescription(prescription_id)
+                if not success:
+                    abort(400)  # Bad request
+            
         else:
             abort(400)  # Bad request
             

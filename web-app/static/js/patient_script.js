@@ -7,7 +7,7 @@ function queryRecipes(recipes, transactions, recipeList, local_time) {
         success: function (data) {
             var queried_recipes = JSON.parse(data);
 		    recipes.push.apply(recipes, queried_recipes);
-            //console.log(recipes);
+            console.log(recipes);
             queryTransactions(recipes, transactions, recipeList, local_time);
         },
 
@@ -26,7 +26,7 @@ function queryTransactions(recipes, transactions, recipeList, local_time) {
         success: function (data) {
             var queried_transactions = JSON.parse(data);
 		    transactions.push.apply(transactions, queried_transactions);
-            //console.log(transactions);
+            console.log(transactions);
             fillData(recipes, transactions, recipeList, local_time);
         },
 
@@ -40,7 +40,7 @@ $(document).ready(function() {
 
     /////get current time for later comparisons
     var date = new Date();
-    var local_time = new Date(date.getTime() - (date.getTimezoneOffset() * 60000)).toJSON().slice(0,19);
+    var local_time = new Date(date.getTime() - (date.getTimezoneOffset() * 60000)).toJSON().slice(0,10);
     ///////
 
     // ok, so I haven't managed to put right variables there from json, so there
@@ -98,13 +98,8 @@ function fillData(recipes, transactions, recipeList, local_time) {
         // Iterate through recipe to check if all prescribed medicines are bought
         var closedTrans = 0;
         for (prescription of recipe) {
-		    for (transaction of transactions_arr) {
-		    	if (transaction.PrescriptionID != prescription.PrescriptionID)
-		    		continue;	// Skip transactions not related to the currently checked prescription
-		    		
-		    	if (transaction.Closed == true)
-		    		closedTrans++;
-		    }
+			if (prescription.RecipeClosed)
+				closedTrans++;
         }
         var recipeClosed = (closedTrans == recipe.length);
         tmpl.querySelector('.recipe-status').style.fontWeight = "bold";
@@ -158,13 +153,9 @@ function fillData(recipes, transactions, recipeList, local_time) {
             */
             
 
-			for (transaction of transactions_arr) {
-				if (transaction.PrescriptionID != prescription.PrescriptionID)
-					continue;	// Skip transactions not related to the currently checked prescription
-					
-				if (transaction.Closed == "True")
-					tmpl_medicine_list.querySelector('.medicine').style.textDecoration = "line-through";
-			}
+			if (prescription.RecipeClosed)
+				tmpl_medicine_list.querySelector('.medicine').style.textDecoration = "line-through";
+
 
             
             // append the li of medicines to the list

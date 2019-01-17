@@ -20,7 +20,9 @@ def invoke_chaincode(user, channel, chaincode, function, parameters):
     parameters = list2str(parameters)
     args = user + ' ' + channel + ' ' + chaincode + ' ' + function + ' ' + parameters
     print(args)
-    response = muterun_js('node-connectors/invoke.js', arguments=args)
+    response = execute_js('node-connectors/invoke.js', arguments=args)
+    print(response)
+    return True
     print('Exitted with: ' + str(response.exitcode))
     if response.exitcode == 0:
         return True
@@ -72,12 +74,12 @@ def add_recipe(idx, recipe_id, doctor_id, patient_id, medicine, medicineQuantity
     success = invoke_chaincode(user, channel, chaincode, function, parameters)
     return success
 
-def change_recipe_limit(recipe_id, limit):
-    user = 'doctor'
+def close_prescription(prescription_id):
+    user = 'chemist'
     channel = 'recipe-channel'
     chaincode = 'recipe-chaincode'
-    function = 'changeRecipeLimit'
-    parameters = [recipe_id, limit]
+    function = 'closePrescription'
+    parameters = [prescription_id]
     
     success = invoke_chaincode(user, channel, chaincode, function, parameters)
     return success
@@ -97,12 +99,12 @@ def get_transaction_by_patient(patient_id):
 
 
 # Transaction invoke functions
-def add_transaction(transaction_id, chemist_id, prescription_id, recipe_id, doctor_id, patient_id, medicine, quantity, value, date, is_closed):
+def add_transaction(transaction_id, chemist_id, prescription_id, recipe_id, doctor_id, patient_id, medicine, quantity, value, date):
     user = 'chemist'
     channel = 'transaction-channel'
     chaincode = 'transaction-chaincode'
     function = 'recordTransaction'
-    parameters = [transaction_id, chemist_id, prescription_id, recipe_id, doctor_id, patient_id, medicine, quantity, value, date, is_closed]
+    parameters = [transaction_id, chemist_id, prescription_id, recipe_id, doctor_id, patient_id, medicine, quantity, value, date]
     
     success = invoke_chaincode(user, channel, chaincode, function, parameters)
     return success
